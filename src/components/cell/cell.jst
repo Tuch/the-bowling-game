@@ -1,0 +1,23 @@
+<div class="cell-wp <%= col.isLeft ? 'left-col' : '' %>">
+    <div class="cell">
+    <% if (col.text) { %>
+        <%= col.text %>
+    <% } else { %>
+        <div class="cell-top clearfix">
+            <div class="cell-left cell-half">I</div>
+            <div class="cell-right cell-half">II</div>
+        </div>
+        <div class="cell-mid clearfix">
+            <% if (col.strike) { %>
+            <div class="cell-full"><%= col.strike %></div>
+            <% } else { %>
+            <div class="cell-left cell-half"><%= col.first %></div>
+            <div class="cell-right cell-half"><%= col.second %></div>
+            <% } %>
+        </div>
+        <div class="cell-bot">
+            <div class="cell-full"><%= col.total %></div>
+        </div>
+    <% } %>
+    </div>
+</div>

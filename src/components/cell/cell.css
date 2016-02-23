@@ -1,0 +1,42 @@
+.cell-wp {
+    width: 60px;
+    height: 60px;
+    padding: 5px;
+    float: left;
+}
+
+.cell-wp.left-col {
+    width: 120px;
+}
+
+.cell {
+    width: 100%;
+    height: 100%;
+    background-color: #ccc;
+    text-align: center;
+}
+
+.cell-half {
+    float: left;
+    width: 50%;
+}
+
+.left-col {
+    line-height: 45px;
+    text-align: center;
+}
+
+.head .left-col .cell {
+    text-align: center;
+}
+
+.player .left-col .cell {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    padding: 0 10px;
+}
+
+.player :not(.left-col) .cell {
+    font-size: 12px;
+}
