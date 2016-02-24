@@ -1,0 +1,126 @@
+{
+    "test1": {
+        "vNode1": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test"]
+            },
+            "childrens": [{
+                "type": 1,
+                "tag": "div",
+                "attrs": {
+                    "className": ["1", "2"],
+                    "id": ["id1"]
+                },
+                "childrens": []
+            }]
+        },
+        "vNode2": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test test2"]
+            },
+            "childrens": [{
+                "type": 1,
+                "tag": "div",
+                "attrs": {
+                    "className": ["1", "2"],
+                    "id": ["id2"]
+                },
+                "childrens": [{
+                    "type": 1,
+                    "tag": "div",
+                    "attrs": {
+                        "className": ["new-div"],
+                        "id": ["id3"]
+                    },
+                    "childrens": []
+                }]
+            }]
+        }
+    },
+    "test2": {
+        "vNode1": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test test2"]
+            },
+            "childrens": [{
+                "type": 1,
+                "tag": "div",
+                "attrs": {
+                    "className": ["1", "2"],
+                    "id": ["id2"]
+                },
+                "childrens": [{
+                    "type": 1,
+                    "tag": "div",
+                    "attrs": {
+                        "className": ["new-div"],
+                        "id": ["id3"]
+                    },
+                    "childrens": []
+                }]
+            }]
+        },
+        "vNode2": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test"]
+            },
+            "childrens": [{
+                "type": 1,
+                "tag": "div",
+                "attrs": {
+                    "className": ["1", "2"],
+                    "id": ["id1"]
+                },
+                "childrens": []
+            }]
+        }
+    },
+
+    "test3": {
+        "vNode1": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test test2"]
+            },
+            "childrens": []
+        },
+        "vNode2": {
+            "type": 1,
+            "tag": "span",
+            "attrs": {
+                "className": ["test"]
+            },
+            "childrens": []
+        }
+    },
+    "test4": {
+        "vNode1": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test test2"]
+            },
+            "childrens": []
+        },
+        "vNode2": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test"]
+            },
+            "childrens": [{
+              "type": 3,
+              "content": "test text"
+            }]
+        }
+    }
+}

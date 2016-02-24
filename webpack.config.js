@@ -16,6 +16,16 @@ module.exports = {
         ]
     },
     module: {
+        //preLoaders: [
+            //{
+                //test: /\.js$/,
+                //exclude: [
+                    ///node_modules/,
+                    ///\.test\.js$/
+                //],
+                //loader: 'isparta-instrumenter'
+            //}
+        //],
         loaders: [{
             loader: 'babel-loader',
             test: /\.js$/,

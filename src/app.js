@@ -1,6 +1,9 @@
 import index from './index.html';
 import styles from './styles.css';
+import * as vdom from './virtual-dom.js';
 import calc from './calc.js';
+import mocks from './virtual-dom.mocks.json';
+
 
 // like react
 import app from './components/app/app.js';
@@ -68,11 +71,21 @@ class App {
 
         this.render().fillNodes();
 
-        console.log('roll', this.state)
+        console.log('roll', this.state);
     }
 
     render() {
-        this.appNode.innerHTML = app(calc(this.state));
+        let state = calc(this.state);
+        let HTML = app(state);
+        let vNode = vdom.fromHTML(HTML);
+
+        if (this.vNode && this.node) {
+            vdom.applyPatch(this.node, vdom.diff(this.vNode, vNode));
+        } else {
+            this.node = vdom.createElement(this.vNode = vNode);
+            this.appNode.innerHTML = '';
+            this.appNode.appendChild(this.node);
+        }
 
         return this;
     }
