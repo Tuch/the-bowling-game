@@ -4,8 +4,7 @@ import template from './app.jst';
 
 export default function (app) {
     return template({
-        headHTML: row(app.rows[0]),
-        playersHTML: app.rows.slice(1).map(row).join(''),
+        rowsHTML: app.rows.map(row).join(''),
         cn: cn
     });
 }

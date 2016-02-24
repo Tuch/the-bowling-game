@@ -1,4 +1,8 @@
 function createNodeFromHTML(HTML) {
+    if (HTML.trim() === ''){
+        return document.createTextNode(HTML);
+    }
+
     // Everything except iOS 7 Safari, IE 8/9, Andriod Browser 4.1/43
     let parser = new DOMParser();
     let body = parser.parseFromString(HTML, 'text/html').documentElement.childNodes[1];
@@ -95,7 +99,7 @@ export let diff = function (vNode1, vNode2) {
                     vNode: vNode2
                 };
             } else {
-                return {};
+                return;
             }
         } else {
             let a = [];
@@ -149,14 +153,14 @@ export let diff = function (vNode1, vNode2) {
             for (let i = 0, length = vNode2.childrens.length; i < length; i++) {
                 let childDiff = diff(vNode1.childrens[i], vNode2.childrens[i]);
 
-                if (Object.keys(childDiff).length) {
+                if (childDiff && Object.keys(childDiff).length) {
                     patch[i] = childDiff;
                 }
             }
 
             patch.attrs = a;
 
-            return patch;
+            return Object.keys(patch).length > 1 || a.length ? patch : undefined;
         }
     } else if (vNode2) {
         return {
@@ -165,7 +169,7 @@ export let diff = function (vNode1, vNode2) {
         };
     }
 
-    return [];
+    return;
 };
 
 function applyPatchOp(parentNode, node, p) {
@@ -174,7 +178,9 @@ function applyPatchOp(parentNode, node, p) {
             parentNode.appendChild(createElement(p.vNode));
         break;
         case 'REMOVE_NODE':
-            parentNode && parentNode.removeChild(node);
+            if (parentNode && node) {
+                 parentNode.removeChild(node);
+            }
         break;
         case 'REPLACE_NODE':
             var newNode = createElement(p.vNode);

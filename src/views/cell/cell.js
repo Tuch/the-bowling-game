@@ -1,9 +1,9 @@
 import cn from './cell.css';
 import template from './cell.jst';
 
-export default function (col) {
+export default function (cell) {
     return template({
-        col: col,
+        cell: cell,
         cn: cn
     });
 }
