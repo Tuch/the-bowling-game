@@ -1,4 +1,4 @@
-<div class="modal modal__<%= style %> modal_animation_bounceIn">
+<div class="modal modal__<%= style %> modal_animation_bounceIn <%= isOpen ? '' : 'modal__hidden' %>">
     <div data-modal="close" class="modal__close">×</div>
     <div class="modal__content">
         <%= contentHTML %>

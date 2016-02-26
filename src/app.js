@@ -5,7 +5,7 @@ import * as vdom from './virtual-dom.js';
 // react style
 import app from './views/app/app.js';
 // redux style
-import reducer from './reducer.js';
+import reducer from './reducers/appReducer.js';
 
 class App {
     constructor (state) {
@@ -32,9 +32,7 @@ class App {
         this.gameTimer && clearInterval(this.gameTimer);
 
         //this.gameTimer = setInterval(() => {
-            //this.reduceAction({
-                //type: reducer.TICK_TIMER
-            //});
+            //this.reduceAction(reducer.tickTimer());
             //this.render();
         //}, 1000);
 
@@ -88,10 +86,7 @@ class App {
     onGameFormFocusOut (key, data) {
         switch (key) {
             case 'input':
-                this.reduceAction({
-                    type: reducer.UPDATE_PLAYER_NAME,
-                    data: data
-                });
+                this.reduceAction(reducer.updatePlayerName(data));
             break;
         }
     }
@@ -99,9 +94,11 @@ class App {
     onRollClick (key) {
         switch (key) {
             case 'roll':
-                this.reduceAction({
-                    type: reducer.THROW_BALL
-                });
+                this.reduceAction(reducer.throwBall());
+
+                if (this.state.play.theEnd) {
+                    this.reduceAction(reducer.newGame());
+                }
             break;
         }
     }
@@ -109,21 +106,17 @@ class App {
     onGameFormClick (key) {
         switch (key) {
             case 'play':
-                this.reduceAction({
-                    type: reducer.PLAY_GAME
-                });
+                this.reduceAction(reducer.playGame());
             break;
         }
     }
 
     onModalClick (key) {
-        //switch (key) {
-            //case 'close':
-                //this.reduceAction({
-                    //type: reducer.CLOSE_MODAL
-                //});
-            //break;
-        //}
+        switch (key) {
+            case 'close':
+                this.reduceAction(reducer.closeModal());
+            break;
+        }
     }
 
     render() {

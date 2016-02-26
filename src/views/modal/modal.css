@@ -6,6 +6,10 @@
     height: 100%;
 }
 
+.modal__hidden {
+    display: none;
+}
+
 .modal__close {
     position: absolute;
     top: -7px;

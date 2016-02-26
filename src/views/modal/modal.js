@@ -2,16 +2,17 @@ import gameForm from '../game-form/game-form.js';
 import cn from './modal.css';
 import template from './modal.jst';
 
-export default function (modal) {
+export default function (app) {
     let contentHTML = '';
 
-    if (modal.name === 'game-form') {
-        contentHTML = gameForm(modal.data);
+    if (app.modal.name === 'game-form') {
+        contentHTML = gameForm(app.play);
     }
 
     return template({
         cn: cn,
-        style: modal.style || 'info',
+        style: app.modal.style || 'info',
+        isOpen: app.modal.isOpen,
         contentHTML
     });
 }
