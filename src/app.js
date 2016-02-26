@@ -12,7 +12,6 @@ class App {
         this.initState(state)
             .initAppNode()
             .render()
-            .fillNodes()
             .initGameTimer()
             .assignEvents();
     }
@@ -32,12 +31,12 @@ class App {
     initGameTimer () {
         this.gameTimer && clearInterval(this.gameTimer);
 
-        this.gameTimer = setInterval(() => {
-            this.reduceAction({
-                type: reducer.TICK_TIMER
-            });
-            this.render();
-        }, 1000);
+        //this.gameTimer = setInterval(() => {
+            //this.reduceAction({
+                //type: reducer.TICK_TIMER
+            //});
+            //this.render();
+        //}, 1000);
 
         return this;
     }
@@ -50,37 +49,99 @@ class App {
 
     assignEvents () {
         document.addEventListener('click', this.onDocumentClick.bind(this));
+        document.addEventListener('focusout', this.onDocumentFocusOut.bind(this));
 
         return this;
     }
 
     onDocumentClick (e) {
-        if (e.target.id === 'roll') {
-            this.onRollClick();
+        let key = '';
+
+        if (key = e.target.getAttribute('data-main')) {
+            this.onRollClick(key);
+        } else if (key = e.target.getAttribute('data-game-form')) {
+            this.onGameFormClick(key);
+        } else if (key = e.target.getAttribute('data-modal')) {
+            this.onModalClick(key);
+        } else {
+            return;
+        }
+
+        this.render();
+    }
+
+    onDocumentFocusOut (e) {
+        let key = '';
+
+        if (key = e.target.getAttribute('data-game-form')) {
+            this.onGameFormFocusOut(key, {
+                index: parseInt(e.target.getAttribute('data-index')),
+                value: e.target.value
+            });
+        } else {
+            return;
+        }
+
+        this.render();
+    }
+
+    onGameFormFocusOut (key, data) {
+        switch (key) {
+            case 'input':
+                this.reduceAction({
+                    type: reducer.UPDATE_PLAYER_NAME,
+                    data: data
+                });
+            break;
         }
     }
 
-    onRollClick () {
-        this.reduceAction({
-            type: reducer.THROW_BALL
-        });
+    onRollClick (key) {
+        switch (key) {
+            case 'roll':
+                this.reduceAction({
+                    type: reducer.THROW_BALL
+                });
+            break;
+        }
+    }
 
-        this.render().fillNodes();
+    onGameFormClick (key) {
+        switch (key) {
+            case 'play':
+                this.reduceAction({
+                    type: reducer.PLAY_GAME
+                });
+            break;
+        }
+    }
+
+    onModalClick (key) {
+        //switch (key) {
+            //case 'close':
+                //this.reduceAction({
+                    //type: reducer.CLOSE_MODAL
+                //});
+            //break;
+        //}
     }
 
     render() {
-        let HTML = app(this.state);
-        let vNode = vdom.fromHTML(HTML);
+        requestAnimationFrame(() => {
+            let HTML = app(this.state);
+            let vNode = vdom.fromHTML(HTML);
 
-        if (this.vNode && this.node) {
-            vdom.applyPatch(this.node, vdom.diff(this.vNode, vNode));
-        } else {
-            this.node = vdom.createElement(vNode);
-            this.appNode.innerHTML = '';
-            this.appNode.appendChild(this.node);
-        }
+            if (this.vNode && this.node) {
+                vdom.applyPatch(this.node, vdom.diff(this.vNode, vNode));
+            } else {
+                this.node = vdom.createElement(vNode);
+                this.appNode.innerHTML = '';
+                this.appNode.appendChild(this.node);
+            }
 
-        this.vNode = vNode;
+            this.vNode = vNode;
+            this.fillNodes();
+        });
 
         return this;
     }

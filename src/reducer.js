@@ -36,6 +36,8 @@ function throwBall (pins) {
 }
 
 function getInitialState (players) {
+    players = players || ['Player 1', 'Player 2'];
+
     let frames = range(FRAMES_LENGTH).map((val) => {
         let frame = {
             title: val + 1
@@ -51,7 +53,7 @@ function getInitialState (players) {
         return frame;
     });
 
-    return {
+    let state = {
         frames: frames,
         players: players,
         currentPlayer: 0,
@@ -59,8 +61,25 @@ function getInitialState (players) {
         startTime: new Date(),
         diffTime: '00:00',
         theEnd: false,
-        lastResult: ''
+        lastResult: '',
+        modal: null
     };
+
+    setModalGameForm(state);
+
+    return state;
+}
+
+function setModalGameForm(state) {
+    state.modal = {
+        name: 'game-form',
+        style: 'green',
+        data: {
+            players: state.players
+        }
+    }
+
+    return state;
 }
 
 function calcRows(state) {
@@ -214,14 +233,37 @@ function onThrowBall (state) {
         nextPlayer(state);
     }
 
+    if (state.theEnd) {
+        setModalGameForm(state);
+    }
+
     state.lastResult = value;
+
+    return state;
+}
+
+function onCloseModal (state) {
+    state.modal = null;
+
+    return state;
+}
+
+function onPlayGame (state) {
+    state = getInitialState(state.modal.data.players);
+    state.modal = null;
+
+    return state;
+}
+
+function onUpdatePlayerName(state, data) {
+    state.players[data.index] = data.value;
 
     return state;
 }
 
 let reducer = function (state, action = {}) {
     if (!state) {
-        state = getInitialState(['Player 1', 'Player 2', 'Player 3']);
+        state = getInitialState();
     }
 
     switch (action.type) {
@@ -230,6 +272,15 @@ let reducer = function (state, action = {}) {
         break;
         case reducer.THROW_BALL:
             state = onThrowBall(state);
+        break;
+        case reducer.CLOSE_MODAL:
+            state = onCloseModal(state);
+        break;
+        case reducer.PLAY_GAME:
+            state = onPlayGame(state);
+        break;
+        case reducer.UPDATE_PLAYER_NAME:
+            state = onUpdatePlayerName(state, action.data);
         break;
     }
 
@@ -240,3 +291,6 @@ export default reducer;
 
 reducer.TICK_TIMER = 'TICK_TIMER';
 reducer.THROW_BALL = 'THROW_BALL';
+reducer.CLOSE_MODAL = 'CLOSE_MODAL';
+reducer.PLAY_GAME = 'PLAY_GAME';
+reducer.UPDATE_PLAYER_NAME = 'UPDATE_PLAYER_NAME';

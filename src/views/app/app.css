@@ -1,4 +1,47 @@
 .screen {
     width: 720px;
-    background-color: #eee;
+    margin: 0 auto 0 auto;
+}
+
+.main-image {
+    width: 300px;
+    margin: 50px auto 50px auto;
+    display: block;
+}
+
+.screen .head .cell-wp:first-child .cell {
+    border-radius: 10px 0 0 0;
+}
+
+.screen .head .cell-wp:last-child .cell {
+    border-radius: 0 10px 0 0;
+}
+
+.screen .player:last-child .cell-wp:first-child .cell {
+    border-radius: 0 0 0 10px;
+}
+
+.screen .player:last-child .cell-wp:last-child .cell {
+    border-radius: 0 0 10px 0;
+}
+
+.roll-button {
+    font-size: 500%;
+    margin: 50px auto;
+    display: block;
+    border-radius: 50%;
+    border: none;
+    color: #fff;
+    padding: 20px;
+    width: 200px;
+    height: 200px;
+    cursor: pointer;
+    box-shadow: 0 2px #652801;
+    text-transform: uppercase;
+    background: #d35400;
+    -webkit-appearance: caret;
+}
+
+.roll-button:hover {
+    background: rgba(211, 84, 0, 0.73);
 }

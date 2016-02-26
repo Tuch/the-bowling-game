@@ -1,6 +1,12 @@
 <div>
     <div class="screen">
-        <%= rowsHTML %>
+        <img class="main-image" src="<%= mainImageSrc %>">
+        <div>
+            <%= rowsHTML %>
+        </div>
     </div>
-    <button id="roll" style="padding:10px; font-size:200%;">Roll!</button>
+    <button class="roll-button" data-main="roll" >GO</button>
+    <div>
+        <%= modalHTML %>
+    </div>
 </div>

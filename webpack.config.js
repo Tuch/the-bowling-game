@@ -12,7 +12,7 @@ module.exports = {
     ],
     resolve: {
         root: [
-            path.join(__dirname)
+            path.join(__dirname, 'src')
         ]
     },
     module: {
