@@ -1,3 +1,9 @@
+const FRAMES_LENGTH = 10;
+
+function range(length) {
+    return Array(length).join(' ').split(' ').map((v, i) => i);
+}
+
 function pad (value, length) {
     value = String(value);
     length = length || 2;
@@ -24,13 +30,15 @@ function roll (pins) {
 }
 
 function throwBall (pins) {
-    return Math.max.apply(null, [roll(pins)]);
+    let values = [roll(pins)];
+
+    return Math.max(...values);
 }
 
 function getInitialState (players) {
-    let frames = [1,2,3,4,5,6,7,8,9,10].map((val) => {
+    let frames = range(FRAMES_LENGTH).map((val) => {
         let frame = {
-            title: val
+            title: val + 1
         };
 
         players.reduce((acc, player, index) => {
@@ -50,7 +58,8 @@ function getInitialState (players) {
         currentFrame: 0,
         startTime: new Date(),
         diffTime: '00:00',
-        ended: false
+        theEnd: false,
+        lastResult: ''
     };
 }
 
@@ -96,70 +105,123 @@ function sum(arr) {
     }, 0);
 }
 
-function nextMove(state) {
-    let player = state.currentPlayer;
+function nextPlayer(state) {
+    if (isLastFrame(state) && isLastPlayer(state)) {
+        state.theEnd = true;
+    } else {
+        let player = state.currentPlayer;
 
-    state.currentPlayer = player = player === state.players.length - 1 ? 0 : player + 1;
+        state.currentPlayer = player = player === state.players.length - 1 ? 0 : player + 1;
 
-    if (player === 0) {
-        state.currentFrame = state.currentFrame < state.frames.length - 1 ? state.currentFrame + 1 : state.currentFrame;
+        if (player === 0) {
+            state.currentFrame = state.currentFrame < state.frames.length - 1 ? state.currentFrame + 1 : state.currentFrame;
+        }
     }
 
     return state;
 }
 
-function getLastRols() {
+function getBonusFrames (state) {
+    let frames = state.frames.slice(Math.max(0, state.currentFrame - 2), state.currentFrame + 1).map((frame) => {
+        return frame[state.currentPlayer];
+    });
 
+    let currFrame = frames[frames.length - 1];
+    frames.length--;
+
+    let r = 2 - currFrame.length;
+    let bonusFrames = [];
+
+    while (r && frames.length) {
+        let frame = frames.pop();
+
+        if (
+            (r === 1 && frame[0].value === 10) ||
+            (r === 2 && (frame.total === 10))
+        ) {
+            bonusFrames.unshift(frame);
+        }
+
+        r -= frame.length;
+    }
+
+    return bonusFrames;
+}
+
+function isLastPlayer (state) {
+    return state.players.length - 1 === state.currentPlayer;
+}
+
+function isLastFrame (state) {
+    return state.currentFrame === FRAMES_LENGTH - 1;
 }
 
 function onTickTimer (state) {
     return calcDiffTime(state);
 }
 
-function onThrowBall(state) {
-    let frame = state.frames[state.currentFrame][state.currentPlayer], prevFrame, prevPrevFrame;
-    let pins = 10;
+function onThrowBall (state) {
+    if (state.theEnd) {
+        return state;
+    }
 
-    if (frame[0]) {
+    let frame = state.frames[state.currentFrame][state.currentPlayer];
+    let pins = FRAMES_LENGTH;
+
+    if (frame[0] && pins !== frame[0].value) {
         pins -= frame[0].value;
     }
 
-    let value = throwBall(pins);
+    let bonusFrames = getBonusFrames(state);
+    let value = Math.max(throwBall(pins), throwBall(pins));
+
+    bonusFrames.forEach((frame) => {
+        frame.total += value;
+    });
 
     let roll = { value };
 
     frame.push(roll);
 
     let rollsSum = sum(frame.map(roll => roll.value));
+    frame.total = rollsSum;
 
     if (frame.length === 1) {
         if (roll.value === 10) {
             roll.title = 'X';
 
-            frame.total = 10;
-            nextMove(state);
+            if (!isLastFrame(state)) {
+                nextPlayer(state);
+            }
         } else {
             roll.title = roll.value;
-            frame.total = roll.value;
         }
     } else if (frame.length === 2) {
-        if (rollsSum === 10) {
+        if (frame.total === 10) {
             roll.title = '/';
-            frame.total = 10;
         } else {
             roll.title = roll.value;
-            frame.total = rollsSum;
         }
 
-        nextMove(state);
+        if (isLastFrame(state) && rollsSum >= 10) {
+
+        } else {
+            nextPlayer(state);
+        }
+    } else if (frame.length === 3) {
+        roll.title = roll.value;
+
+        nextPlayer(state);
     }
+
+    state.lastResult = value;
 
     return state;
 }
 
 let reducer = function (state, action = {}) {
     if (!state) {
-        state = getInitialState(['Player 1', 'Player 2']);
+        state = getInitialState(['Player 1', 'Player 2', 'Player 3']);
     }
 
     switch (action.type) {
