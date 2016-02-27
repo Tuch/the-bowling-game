@@ -1,0 +1,14 @@
+.final-results__name {
+    font-weight: 100;
+    font-size: 16px;
+    width: 228px;
+    margin: 0 auto;
+    display: block;
+    text-align: center;
+    margin-bottom: -1px;
+    margin-bottom: 30px;
+}
+.final-result__winner {
+    font-size:40px;
+    width: auto;
+}

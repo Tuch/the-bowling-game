@@ -5,15 +5,21 @@ function createNodeFromHTML(HTML) {
 
     // Everything except iOS 7 Safari, IE 8/9, Andriod Browser 4.1/43
     let parser = new DOMParser();
-    let body = parser.parseFromString(HTML, 'text/html').documentElement.childNodes[1];
-    let node = body.childNodes[0];
+    let doc = parser.parseFromString(HTML, 'text/html').documentElement;
+    let head = doc.childNodes[0];
+    let body = doc.childNodes[1];
+    let node;
 
-    body.removeChild(node);
+    if (node = head.childNodes[0]) {
+        head.removeChild(node);
+    } else if (node = body.childNodes[0]) {
+        body.removeChild(node);
+    }
 
     return node;
 }
 
-function createVNodeFromNode(node) {
+export function createVNodeFromNode(node) {
     let vNode = {
         type: node.nodeType
     };
@@ -86,104 +92,108 @@ function renderHTML(vNode) {
 }
 
 export let diff = function (vNode1, vNode2) {
-    if (vNode1 && vNode2) {
-        if (vNode2.tag !== vNode1.tag) {
-            return {
-                type: 'REPLACE_NODE',
-                vNode: vNode2
-            };
-        } else if (vNode1.type === 3 || vNode2.type === 3) {
-            if (vNode2.content !== vNode1.content) {
-                return {
-                    type: 'REPLACE_NODE',
-                    vNode: vNode2
-                };
-            } else {
-                return;
-            }
-        } else {
-            let a = [];
-
-            for (let key in vNode2.attrs) {
-                let attr1 = vNode1.attrs[key];
-                let attr2 = vNode2.attrs[key];
-
-                if (!attr1) {
-                    a.push({
-                        type: 'SET_ATTR',
-                        name: key,
-                        val: attr2.join(' ')
-                    });
-                } else {
-                    let attr1Val = attr1.join(' ');
-                    let attr2Val = attr2.join(' ');
-
-                    if (attr1Val !== attr2Val) {
-                        a.push({
-                            type: 'SET_ATTR',
-                            name: key,
-                            val: attr2Val
-                        });
-                    }
-                }
-            }
-
-            for (let key in vNode1.attrs) {
-                let attr1 = vNode1.attrs[key];
-                let attr2 = vNode2.attrs[key];
-
-                if (!attr2) {
-                    a.push({
-                        type: 'REMOVE_ATTR',
-                        name: attr1
-                    });
-                }
-            }
-
-            let patch = {};
-
-            for (let i = 0, length = vNode1.childrens.length; i < length; i++) {
-                if (!vNode2.childrens[i]) {
-                    patch[i] = {
-                        type: 'REMOVE_NODE'
-                    };
-                }
-            }
-
-            for (let i = 0, length = vNode2.childrens.length; i < length; i++) {
-                let childDiff = diff(vNode1.childrens[i], vNode2.childrens[i]);
-
-                if (childDiff && Object.keys(childDiff).length) {
-                    patch[i] = childDiff;
-                }
-            }
-
-            patch.attrs = a;
-
-            return Object.keys(patch).length > 1 || a.length ? patch : undefined;
-        }
-    } else if (vNode2) {
+    if (vNode1 && !vNode2) {
+        return {
+            type: 'REMOVE_NODE'
+        };
+    } else if (!vNode1 && vNode2) {
         return {
             type: 'ADD_NODE',
             vNode: vNode2
         };
-    }
+    } else if (vNode1.tag !== vNode2.tag) {
+        return {
+            type: 'REPLACE_NODE',
+            vNode: vNode2
+        };
+    } else if (vNode1.type === 3 || vNode2.type === 3) {
+        if (vNode1.content !== vNode2.content) {
+            return {
+                type: 'REPLACE_NODE',
+                vNode: vNode2
+            };
+        }
+    } else {
+        let attrs = [];
+        let patch = {};
 
-    return;
+        for (let key in vNode2.attrs) {
+            let attr1 = vNode1.attrs[key];
+            let attr2 = vNode2.attrs[key];
+
+            if (!attr1) {
+                attrs.push({
+                    type: 'SET',
+                    name: key,
+                    val: attr2.join(' ')
+                });
+            } else {
+                let attr1Val = attr1.join(' ');
+                let attr2Val = attr2.join(' ');
+
+                if (attr1Val !== attr2Val) {
+                    attrs.push({
+                        type: 'SET',
+                        name: key,
+                        val: attr2Val
+                    });
+                }
+            }
+        }
+
+        for (let key in vNode1.attrs) {
+            let attr2 = vNode2.attrs[key];
+
+            if (!attr2) {
+                attrs.push({
+                    type: 'REMOVE',
+                    name: key
+                });
+            }
+        }
+
+        for (let i = 0, length = vNode1.childrens.length; i < length; i++) {
+            let cDiff = diff(vNode1.childrens[i], vNode2.childrens[i]);
+
+            if (cDiff) {
+                patch[i] = cDiff;
+            }
+        }
+
+        for (let i = 0, length = vNode2.childrens.length; i < length; i++) {
+            if (!vNode1.childrens[i]) {
+                let cDiff = diff(vNode1.childrens[i], vNode2.childrens[i]);
+
+                if (cDiff) {
+                    patch[i] = cDiff;
+                }
+            }
+        }
+
+        if (attrs.length) {
+            patch.attrs = attrs;
+        }
+
+        if (Object.keys(patch).length) {
+            return patch;
+        }
+    }
 };
 
-function applyPatchOp(parentNode, node, p) {
-    switch(p.type) {
+function applyPatchOp(parentNode, node, op) {
+    switch(op.type) {
         case 'ADD_NODE':
-            parentNode.appendChild(createElement(p.vNode));
+            if (parentNode) {
+                parentNode.appendChild(createElement(op.vNode));
+            }
         break;
         case 'REMOVE_NODE':
-            if (parentNode && node) {
+            if (parentNode) {
                  parentNode.removeChild(node);
             }
         break;
         case 'REPLACE_NODE':
-            var newNode = createElement(p.vNode);
+            var newNode = createElement(op.vNode);
 
             if (parentNode) {
                 parentNode.insertBefore(newNode, node);
@@ -197,44 +207,45 @@ function applyPatchOp(parentNode, node, p) {
     return node;
 }
 
-export let applyPatch = function (node, patch, id) {
-    let parentNode = node.parentNode;
+function applyAttrOps(node, ops) {
+    for (let i = 0, length = ops.length; i < length; i++) {
+        let op = ops[i];
+        let name = op.name;
 
-    if (id !== undefined) {
-        parentNode = node;
-        node = node.childNodes[id];
+        if (name === 'className') {
+            name = 'class';
+        }
+
+        switch(op.type) {
+            case 'SET':
+                node.setAttribute(name, op.val);
+            break;
+            case 'REMOVE':
+                node.removeAttribute(name);
+            break;
+        }
     }
 
-    if (!patch) {
+    return node;
+}
+
+export let applyPatch = function (node, patches, parentNode) {
+    parentNode = parentNode || node.parentNode;
+
+    if (!patches) {
         return node;
     }
 
-    if (patch.type) {
-        node = applyPatchOp(parentNode, node, patch);
+    if (patches.type) {
+        node = applyPatchOp(parentNode, node, patches);
     } else {
-        for (var key in patch) {
-            let p = patch[key];
+        let childNodes = Array.prototype.slice.call(node.childNodes);
 
+        for (var key in patches) {
             if (key === 'attrs') {
-                for (let i = 0, length = p.length; i < length; i++) {
-                    let attr = p[i];
-                    let name = attr.name;
-
-                    if (name === 'className') {
-                        name = 'class';
-                    }
-
-                    switch(attr.type) {
-                        case 'SET_ATTR':
-                            node.setAttribute(name, attr.val);
-                        break;
-                        case 'REMOVE_ATTR':
-                            node.removeAttribute(name);
-                        break;
-                    }
-                }
+                applyAttrOps(node, patches[key]);
             } else {
-                node.childNodes[key] = applyPatch(node, p, key);
+                applyPatch(childNodes[key], patches[key], node);
             }
         }
     }
@@ -246,6 +257,10 @@ export let createElement = function (vNode) {
     return createNodeFromHTML(renderHTML(vNode));
 };
 
-export let fromHTML = function (HTML) {
+export let vNodeFromHTML = function (HTML) {
     return createVNodeFromNode(createNodeFromHTML(HTML));
 };
+
+export let applyVNode = function (node, vNode) {
+    return applyPatch(node, diff(createVNodeFromNode(node), vNode));
+}

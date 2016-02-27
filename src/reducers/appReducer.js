@@ -7,6 +7,7 @@ let types = {
     CLOSE_MODAL: 'CLOSE_MODAL',
     PLAY_GAME: 'PLAY_GAME',
     NEW_GAME: 'NEW_GAME',
+    END_GAME: 'END_GAME',
     UPDATE_PLAYER_NAME: 'UPDATE_PLAYER_NAME'
 };
 
@@ -48,6 +49,12 @@ actions.playGame = function () {
 actions.newGame = function () {
     return {
         type: types.NEW_GAME
+    };
+};
+
+actions.endGame = function () {
+    return {
+        type: types.END_GAME
     };
 };
 

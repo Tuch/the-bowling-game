@@ -1,6 +1,6 @@
 import row from '../row/row.js';
 import modal from '../modal/modal.js';
-import mainImageSrc from 'file!images/main.jpg';
+import mainImageSrc from 'file!images/ball.png';
 import cn from './app.css';
 import template from './app.jst';
 

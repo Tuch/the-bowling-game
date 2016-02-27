@@ -31,10 +31,10 @@ class App {
     initGameTimer () {
         this.gameTimer && clearInterval(this.gameTimer);
 
-        //this.gameTimer = setInterval(() => {
-            //this.reduceAction(reducer.tickTimer());
-            //this.render();
-        //}, 1000);
+        this.gameTimer = setInterval(() => {
+            this.reduceAction(reducer.tickTimer());
+            this.render();
+        }, 1000);
 
         return this;
     }
@@ -61,6 +61,8 @@ class App {
             this.onGameFormClick(key);
         } else if (key = e.target.getAttribute('data-modal')) {
             this.onModalClick(key);
+        } else if (key = e.target.getAttribute('data-final-results')) {
+            this.onFinalResultsClick(key);
         } else {
             return;
         }
@@ -91,13 +93,21 @@ class App {
         }
     }
 
+    onFinalResultsClick (key) {
+        switch (key) {
+            case 'new':
+                this.reduceAction(reducer.newGame());
+            break;
+        }
+    }
+
     onRollClick (key) {
         switch (key) {
             case 'roll':
                 this.reduceAction(reducer.throwBall());
 
                 if (this.state.play.theEnd) {
-                    this.reduceAction(reducer.newGame());
+                    this.reduceAction(reducer.endGame());
                 }
             break;
         }
@@ -122,7 +132,7 @@ class App {
     render() {
         requestAnimationFrame(() => {
             let HTML = app(this.state);
-            let vNode = vdom.fromHTML(HTML);
+            let vNode = vdom.vNodeFromHTML(HTML);
 
             if (this.vNode && this.node) {
                 vdom.applyPatch(this.node, vdom.diff(this.vNode, vNode));

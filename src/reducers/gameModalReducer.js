@@ -1,9 +1,24 @@
-function getInitialState () {
+function createFinalResultsState() {
+    return {
+        name: 'final-results',
+        style: 'red',
+        isOpen: false
+    }
+}
+
+function createGameFormState() {
     return {
         name: 'game-form',
         style: 'green',
-        isOpen: true
-    };
+        isOpen: false
+    }
+}
+
+function getInitialState () {
+    let state = createGameFormState();
+    state.isOpen = true;
+
+    return state;
 }
 
 function reducerCreate(types) {
@@ -15,7 +30,12 @@ function reducerCreate(types) {
             case types.PLAY_GAME:
                 state.isOpen = false;
             break;
+            case types.END_GAME:
+                state = createFinalResultsState();
+                state.isOpen = true;
+            break;
             case types.NEW_GAME:
+                state = createGameFormState();
                 state.isOpen = true;
             break;
         }

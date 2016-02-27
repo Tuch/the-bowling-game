@@ -4,9 +4,16 @@
 }
 
 .main-image {
-    width: 300px;
     margin: 50px auto 50px auto;
     display: block;
+    position: absolute;
+    top: -42px;
+    left: 260px;
+    width: 200px;
+}
+
+.button-wp {
+    position:relative;
 }
 
 .screen .head .cell-wp:first-child .cell {
@@ -25,23 +32,48 @@
     border-radius: 0 0 10px 0;
 }
 
+.author {
+    padding: 0px 0px 30px 5px;
+    color: #ccc;
+    text-align: right;
+}
+
 .roll-button {
-    font-size: 500%;
+    position: relative;
+    font-size: 250%;
     margin: 50px auto;
     display: block;
     border-radius: 50%;
     border: none;
     color: #fff;
-    padding: 20px;
+    padding: 121px 20px 20px 20px;
     width: 200px;
     height: 200px;
     cursor: pointer;
-    box-shadow: 0 2px #652801;
+    box-shadow: 0 2px rgba(243, 156, 18, 0.8);
     text-transform: uppercase;
-    background: #d35400;
+    background: transparent;
     -webkit-appearance: caret;
 }
 
 .roll-button:hover {
-    background: rgba(211, 84, 0, 0.73);
+    box-shadow: 0 2px #652801;
+    animation-duration: .5s;
+    animation-fill-mode: both;
+    animation-name: shake;
 }
+
+@keyframes shake {
+    from, to {
+        transform: translate3d(0, 0, 0);
+    }
+
+    30% {
+        transform: translate3d(-5px, 0, 0);
+    }
+
+    70% {
+        transform: translate3d(5px, 0, 0);
+    }
+}
+

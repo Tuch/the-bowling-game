@@ -67,8 +67,8 @@ function getInitialState (players) {
     return state;
 }
 
-function calcRows(state) {
-    let rows = state.rows = [];
+function prepareRows(state) {
+    let rows = [];
     let row = {
         isHead: true,
         cols: state.frames.map(frame => ({ text: frame.title }))
@@ -100,12 +100,30 @@ function calcRows(state) {
 
     rows.push(...pRows);
 
+    return rows;
+}
+
+function prepareFinalResults(state) {
+    return state.players.map((player, index) => {
+        return {
+            name: player,
+            scores: sum(state.frames.map((frame) => frame[index].total))
+        };
+    }).sort(function (a, b) {
+        return b.scores - a.scores;
+    });
+}
+
+function prepareView(state) {
+    state.rows = prepareRows(state);
+    state.finalResults = prepareFinalResults(state);
+
     return state;
 }
 
 function sum(arr) {
     return arr.reduce((acc, val) => {
-        return acc + val;
+        return acc + parseInt(val || 0, 10);
     }, 0);
 }
 
@@ -254,7 +272,7 @@ function reducerCreate(types) {
             break;
         }
 
-        return calcRows(state);
+        return prepareView(state);
     }
 }
 

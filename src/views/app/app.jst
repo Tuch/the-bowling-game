@@ -1,11 +1,14 @@
 <div>
     <div class="screen">
-        <img class="main-image" src="<%= mainImageSrc %>">
+        <div class="author">by Alex Afonin</div>
         <div>
             <%= rowsHTML %>
         </div>
+        <div class="button-wp">
+            <img class="main-image" src="<%= mainImageSrc %>">
+            <button class="roll-button" data-main="roll" ></button>
+        </div>
     </div>
-    <button class="roll-button" data-main="roll" >GO</button>
     <div>
         <%= modalHTML %>
     </div>

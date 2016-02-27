@@ -122,5 +122,28 @@
               "content": "test text"
             }]
         }
-    }
+    },
+    "test5": "<div><div>Abc</div><style>.test { color:red; }</style></div>",
+    "test6": [{
+        "vNode1": {
+            "type": 1,
+            "tag": "style",
+            "attrs": { },
+            "childrens": []
+        },
+        "vNode2": {
+            "type": 1,
+            "tag": "div",
+            "attrs": {
+                "className": ["test test2"]
+            },
+            "childrens": [{
+              "type": 3,
+              "content": "test text"
+            }]
+        }
+    }, [
+        "<div><div>Abc</div> test <div>Text node</div><style>.test { color:red; }</style></div>",
+        "<div><div>Abc</div><div><span>x</span><span>y</span></div></div>"
+    ]]
 }
