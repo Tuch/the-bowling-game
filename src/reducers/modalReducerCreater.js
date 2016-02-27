@@ -14,29 +14,32 @@ function createGameFormState() {
     }
 }
 
-function getInitialState () {
-    let state = createGameFormState();
-    state.isOpen = true;
+function getInitialModal (state) {
+    let modal = createGameFormState();
+    modal.isOpen = true;
+    modal.data = state.game;
 
-    return state;
+    return modal;
 }
 
 function reducerCreate(types) {
-    return function (state = getInitialState(), action = {}) {
+    return function (state, action = {}) {
+        let modal = state.modal = state.modal || getInitialModal(state);
+
         switch (action.type) {
             case types.CLOSE_MODAL:
-                state.isOpen = false;
+                modal.isOpen = false;
             break;
             case types.PLAY_GAME:
-                state.isOpen = false;
+                modal.isOpen = false;
             break;
             case types.END_GAME:
-                state = createFinalResultsState();
-                state.isOpen = true;
+                modal.data = state.game;
+                modal.isOpen = true;
             break;
             case types.NEW_GAME:
-                state = createGameFormState();
-                state.isOpen = true;
+                modal.data = state.game;
+                modal.isOpen = true;
             break;
         }
 

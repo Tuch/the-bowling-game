@@ -3,16 +3,16 @@ import finalResults from '../final-results/final-results.js';
 import cn from './modal.css';
 import template from './modal.jst';
 
-function prepareCN(state) {
+function prepareCN(modal) {
     let root = [cn.root];
 
-    if (state.modal.style) {
-        root.push(cn['style_' + state.modal.style]);
+    if (modal.style) {
+        root.push(cn['style_' + modal.style]);
     } else {
         root.push(cn.info);
     }
 
-    if (!state.modal.isOpen) {
+    if (!modal.isOpen) {
         root.push('hidden');
     }
 
@@ -21,20 +21,20 @@ function prepareCN(state) {
     return cn;
 }
 
-export default function (app) {
+export default function (modal) {
     let contentHTML = '';
 
-    switch (app.modal.name) {
+    switch (modal.name) {
         case 'game-form':
-            contentHTML = gameForm(app.play);
+            contentHTML = gameForm(modal.data);
         break;
         case 'final-results':
-            contentHTML = finalResults(app.play);
+            contentHTML = finalResults(modal.data);
         break;
     }
 
     return template({
-        cn: prepareCN(app),
+        cn: prepareCN(modal),
         contentHTML
     });
 }

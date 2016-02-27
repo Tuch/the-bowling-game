@@ -1,78 +1,85 @@
-import gameModalReducerCreater from './gameModalReducer';
-import gamePlayReducerCreater from './gamePlayReducer';
+import * as types from './types';
+import { sumArray } from 'helpers';
+import modalReducerCreater from './modalReducerCreater';
+import gameReducerCreater from './gameReducerCreater';
 
-let types = {
-    TICK_TIMER: 'TICK_TIMER',
-    THROW_BALL: 'THROW_BALL',
-    CLOSE_MODAL: 'CLOSE_MODAL',
-    PLAY_GAME: 'PLAY_GAME',
-    NEW_GAME: 'NEW_GAME',
-    END_GAME: 'END_GAME',
-    UPDATE_PLAYER_NAME: 'UPDATE_PLAYER_NAME'
-};
+let modalReducer = modalReducerCreater(types);
+let gameReducer = gameReducerCreater(types);
 
-let gameModalReducer = gameModalReducerCreater(types);
-let gamePlayReducer = gamePlayReducerCreater(types);
+function createTable (state) {
+    let rows = [];
+    let row = {
+        isHead: true,
+        cols: state.frames.map((frame, index) => ({
+            text: frame.title,
+            isRight: index === state.frames.length - 1,
+            isTop: true
+        }))
+    };
+
+    row.cols.unshift({text:state.diffTime, isLeft: true, isTop: true});
+
+    rows.push(row);
+
+    let pRows = state.players.map((player, pIndex) => {
+        let cols = state.frames.map((frame, fIndex) => {
+            let rolls = frame[pIndex];
+            let cell = {
+                0: rolls[0] ? rolls[0].title : '',
+                1: rolls[1] ? rolls[1].title : '',
+                total: rolls.total,
+                isRight: fIndex === state.frames.length - 1,
+                isBottom: pIndex === state.players.length - 1,
+                isScores: true
+            };
+
+            return cell;
+        });
+
+        cols.unshift({
+            text: player,
+            isLeft: true,
+            isBottom: pIndex === state.players.length - 1
+        });
+
+        return { cols };
+    });
+
+    rows.push(...pRows);
+
+    return { rows };
+}
+
+function createFinalResults (state) {
+    return state.players.map((player, index) => {
+        return {
+            name: player,
+            scores: sumArray(state.frames.map((frame) => frame[index].total))
+        };
+    }).sort(function (a, b) {
+        return b.scores - a.scores;
+    });
+}
 
 function getInitialState() {
-    return {};
+    return { };
 }
 
 function reducer(state = getInitialState(), action = {}) {
-    state.play = gamePlayReducer(state.play, action);
-    state.modal = gameModalReducer(state.modal, action);
+    state.game = gameReducer(state.game, action);
+
+    switch (action.type) {
+        case types.END_GAME:
+            state.finalResults = createFinalResults(state.game);
+        break;
+        default:
+            state.table = createTable(state.game);
+        break;
+    }
+
+    state = modalReducer(state, action);
 
     return state;
 }
 
-let actions = {};
-
-actions.updatePlayerName = function (data) {
-    return {
-        type: types.UPDATE_PLAYER_NAME,
-        data: data
-    };
-};
-
-actions.throwBall = function () {
-    return {
-        type: types.THROW_BALL
-    };
-};
-
-actions.playGame = function () {
-    return {
-        type: types.PLAY_GAME
-    };
-};
-
-actions.newGame = function () {
-    return {
-        type: types.NEW_GAME
-    };
-};
-
-actions.endGame = function () {
-    return {
-        type: types.END_GAME
-    };
-};
-
-actions.closeModal = function () {
-    return {
-        type: types.CLOSE_MODAL
-    };
-};
-
-actions.tickTimer = function () {
-    return {
-        type: types.TICK_TIMER
-    };
-};
-
-//Object.assign(reducer, types);
-Object.assign(reducer, actions);
-
 export default reducer;
-
-

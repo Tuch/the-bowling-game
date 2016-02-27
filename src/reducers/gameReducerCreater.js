@@ -1,4 +1,5 @@
 import names from './names.json';
+import { sumArray } from 'helpers';
 
 const FRAMES_LENGTH = 10;
 
@@ -43,12 +44,12 @@ function throwBall (pins) {
 
 function getInitialState (players) {
     let state = {
-        players: players || [getRandomName(), getRandomName(), getRandomName(), getRandomName()],
+        players: players || [getRandomName(), getRandomName()],
         currentPlayer: 0,
         currentFrame: 0,
         startTime: new Date(),
         diffTime: '00:00',
-        theEnd: false,
+        inProgress: true,
         lastResult: ''
     };
 
@@ -74,77 +75,9 @@ function createFrames (state) {
     });
 }
 
-function createRows (state) {
-    let rows = [];
-    let row = {
-        isHead: true,
-        cols: state.frames.map((frame, index) => ({
-            text: frame.title,
-            isRight: index === state.frames.length - 1,
-            isTop: true
-        }))
-    };
-
-    row.cols.unshift({text:state.diffTime, isLeft: true, isTop: true});
-
-    rows.push(row);
-
-    let pRows = state.players.map((player, pIndex) => {
-        let cols = state.frames.map((frame, fIndex) => {
-            let rolls = frame[pIndex];
-            let cell = {
-                0: rolls[0] ? rolls[0].title : '',
-                1: rolls[1] ? rolls[1].title : '',
-                total: rolls.total,
-                isRight: fIndex === state.frames.length - 1,
-                isBottom: pIndex === state.players.length - 1,
-                isScores: true
-            };
-
-            return cell;
-        });
-
-        cols.unshift({
-            text: player,
-            isLeft: true,
-            isBottom: pIndex === state.players.length - 1
-        });
-
-        return { cols };
-    });
-
-    rows.push(...pRows);
-
-    return rows;
-}
-
-function createFinalResults (state) {
-    return state.players.map((player, index) => {
-        return {
-            name: player,
-            scores: sum(state.frames.map((frame) => frame[index].total))
-        };
-    }).sort(function (a, b) {
-        return b.scores - a.scores;
-    });
-}
-
-function prepareView (state) {
-    state.rows = createRows(state);
-    state.finalResults = createFinalResults(state);
-
-    return state;
-}
-
-function sum (arr) {
-    return arr.reduce((acc, val) => {
-        return acc + parseInt(val || 0, 10);
-    }, 0);
-}
-
 function nextPlayer (state) {
     if (isLastFrame(state) && isLastPlayer(state)) {
-        state.theEnd = true;
+        state.inProgress = false;
     } else {
         let player = state.currentPlayer;
 
@@ -198,7 +131,7 @@ function onTickTimer (state) {
 }
 
 function onThrowBall (state) {
-    if (state.theEnd) {
+    if (!state.inProgress) {
         return state;
     }
 
@@ -220,7 +153,7 @@ function onThrowBall (state) {
 
     frame.push(roll);
 
-    let rollsSum = sum(frame.map(roll => roll.value));
+    let rollsSum = sumArray(frame.map(roll => roll.value));
     frame.total = rollsSum;
 
     if (frame.length === 1) {
@@ -294,7 +227,7 @@ function reducerCreate (types) {
             break;
         }
 
-        return prepareView(state);
+        return state;
     }
 }
 

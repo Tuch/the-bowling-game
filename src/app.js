@@ -6,6 +6,7 @@ import * as vdom from './virtual-dom.js';
 import app from './views/app/app.js';
 // redux style
 import reducer from './reducers/appReducer.js';
+import * as actions from './reducers/actions.js';
 
 class App {
     constructor (state) {
@@ -32,7 +33,7 @@ class App {
         this.gameTimer && clearInterval(this.gameTimer);
 
         this.gameTimer = setInterval(() => {
-            this.reduceAction(reducer.tickTimer());
+            this.reduceAction(actions.tickTimer());
             this.render();
         }, 1000);
 
@@ -88,7 +89,7 @@ class App {
     onGameFormFocusOut (key, data) {
         switch (key) {
             case 'input':
-                this.reduceAction(reducer.updatePlayerName(data));
+                this.reduceAction(actions.updatePlayerName(data));
             break;
         }
     }
@@ -96,7 +97,7 @@ class App {
     onFinalResultsClick (key) {
         switch (key) {
             case 'new':
-                this.reduceAction(reducer.newGame());
+                this.reduceAction(actions.newGame());
             break;
         }
     }
@@ -104,10 +105,10 @@ class App {
     onRollClick (key) {
         switch (key) {
             case 'roll':
-                this.reduceAction(reducer.throwBall());
+                this.reduceAction(actions.throwBall());
 
-                if (this.state.play.theEnd) {
-                    this.reduceAction(reducer.endGame());
+                if (!this.state.game.inProgress) {
+                    this.reduceAction(actions.endGame());
                 }
             break;
         }
@@ -116,7 +117,7 @@ class App {
     onGameFormClick (key) {
         switch (key) {
             case 'play':
-                this.reduceAction(reducer.playGame());
+                this.reduceAction(actions.playGame());
             break;
         }
     }
@@ -124,7 +125,7 @@ class App {
     onModalClick (key) {
         switch (key) {
             case 'close':
-                this.reduceAction(reducer.closeModal());
+                this.reduceAction(actions.closeModal());
             break;
         }
     }

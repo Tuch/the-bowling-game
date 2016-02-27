@@ -5,8 +5,8 @@ import template from './app.jst';
 
 export default function (app) {
     return template({
-        tableHTML: table(app),
-        modalHTML: modal(app),
+        tableHTML: app.table ? table(app.table) : '',
+        modalHTML: app.modal ? modal(app.modal) : '',
         cn
     });
 }

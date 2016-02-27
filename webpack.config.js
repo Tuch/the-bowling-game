@@ -16,7 +16,7 @@ module.exports = {
         ]
     },
     module: {
-        //preLoaders: [
+        preLoaders: [
             //{
                 //test: /\.js$/,
                 //exclude: [
@@ -25,7 +25,7 @@ module.exports = {
                 //],
                 //loader: 'isparta-instrumenter'
             //}
-        //],
+        ],
         loaders: [
             {
                 loader: 'babel-loader',

@@ -5,7 +5,7 @@ module.exports = function(config) {
         ],
 
         reporters: [
-            'spec'//, 'coverage'
+            'spec', 'coverage'
         ],
 
         files: [

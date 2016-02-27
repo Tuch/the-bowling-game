@@ -1,9 +1,9 @@
 import cn from './final-results.css';
 import template from './final-results.jst';
 
-export default function (play) {
+export default function (game) {
     return template({
         cn: cn,
-        finalResults: play.finalResults
+        finalResults: game.finalResults
     });
 }
