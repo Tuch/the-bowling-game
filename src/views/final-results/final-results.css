@@ -1,4 +1,4 @@
-.final-results__name {
+.name {
     font-weight: 100;
     font-size: 16px;
     width: 228px;
@@ -8,7 +8,8 @@
     margin-bottom: -1px;
     margin-bottom: 30px;
 }
-.final-result__winner {
+
+.winner {
     font-size:40px;
     width: auto;
 }
