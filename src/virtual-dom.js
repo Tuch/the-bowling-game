@@ -1,3 +1,7 @@
+const propNames = {
+    value: true
+};
+
 function createNodeFromHTML(HTML) {
     if (HTML.trim() === ''){
         return document.createTextNode(HTML);
@@ -216,12 +220,22 @@ function applyAttrOps(node, ops) {
             name = 'class';
         }
 
+        let isProp = propNames[name];
+
         switch(op.type) {
             case 'SET':
-                node.setAttribute(name, op.val);
+                if (isProp) {
+                    node[name] = op.val;
+                } else {
+                    node.setAttribute(name, op.val);
+                }
             break;
             case 'REMOVE':
-                node.removeAttribute(name);
+                if (isProp) {
+                    node[name] = '';
+                } else {
+                    node.removeAttribute(name);
+                }
             break;
         }
     }

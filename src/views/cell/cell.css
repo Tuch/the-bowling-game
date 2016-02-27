@@ -15,7 +15,6 @@
 }
 
 .is_left {
-    width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -24,8 +23,9 @@
     text-align: center;
 }
 
-.is_right {
-    width: 120px
+.is_right,
+.is_left {
+    width: 200px
 }
 
 .is_top {

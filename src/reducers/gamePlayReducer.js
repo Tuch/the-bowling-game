@@ -1,6 +1,8 @@
+import names from './names.json';
+
 const FRAMES_LENGTH = 10;
 
-function range(length) {
+function range (length) {
     return Array(length).join(' ').split(' ').map((v, i) => i);
 }
 
@@ -25,37 +27,23 @@ function calcDiffTime (state) {
     return state;
 }
 
-function roll (pins) {
-    return Math.round(Math.random() * 10 % pins);
+function getRandomName () {
+    return names[rand(names.length - 1)];
+}
+
+function rand (max) {
+    return Math.round(Math.random() * max);
 }
 
 function throwBall (pins) {
-    let values = [roll(pins)];
+    let values = [rand(pins)];
 
     return Math.max(...values);
 }
 
 function getInitialState (players) {
-    players = players || ['Player 1', 'Player 2'];
-
-    let frames = range(FRAMES_LENGTH).map((val) => {
-        let frame = {
-            title: val + 1
-        };
-
-        players.reduce((acc, player, index) => {
-            acc[index] = [];
-            acc[index].total = '';
-
-            return acc;
-        }, frame);
-
-        return frame;
-    });
-
     let state = {
-        frames: frames,
-        players: players,
+        players: players || [getRandomName(), getRandomName(), getRandomName(), getRandomName()],
         currentPlayer: 0,
         currentFrame: 0,
         startTime: new Date(),
@@ -64,10 +52,29 @@ function getInitialState (players) {
         lastResult: ''
     };
 
+    state.frames = createFrames(state);
+
     return state;
 }
 
-function prepareRows(state) {
+function createFrames (state) {
+    return range(FRAMES_LENGTH).map((val) => {
+        let frame = {
+            title: val + 1
+        };
+
+        state.players.reduce((acc, player, index) => {
+            acc[index] = [];
+            acc[index].total = '';
+
+            return acc;
+        }, frame);
+
+        return frame;
+    });
+}
+
+function createRows (state) {
     let rows = [];
     let row = {
         isHead: true,
@@ -111,7 +118,7 @@ function prepareRows(state) {
     return rows;
 }
 
-function prepareFinalResults(state) {
+function createFinalResults (state) {
     return state.players.map((player, index) => {
         return {
             name: player,
@@ -122,20 +129,20 @@ function prepareFinalResults(state) {
     });
 }
 
-function prepareView(state) {
-    state.rows = prepareRows(state);
-    state.finalResults = prepareFinalResults(state);
+function prepareView (state) {
+    state.rows = createRows(state);
+    state.finalResults = createFinalResults(state);
 
     return state;
 }
 
-function sum(arr) {
+function sum (arr) {
     return arr.reduce((acc, val) => {
         return acc + parseInt(val || 0, 10);
     }, 0);
 }
 
-function nextPlayer(state) {
+function nextPlayer (state) {
     if (isLastFrame(state) && isLastPlayer(state)) {
         state.theEnd = true;
     } else {
@@ -249,17 +256,24 @@ function onThrowBall (state) {
     return state;
 }
 
-function onUpdatePlayerName(state, data) {
+function onUpdatePlayerName (state, data) {
     state.players[data.index] = data.value;
+    state.players = state.players.filter(player => player);
+
+    if (!state.players.length) {
+        state.players.push(getRandomName());
+    }
+
+    state.frames = createFrames(state);
 
     return state;
 }
 
-function onPlayGame(state) {
+function onPlayGame (state) {
     return getInitialState(state.players);
 }
 
-function reducerCreate(types) {
+function reducerCreate (types) {
     return function (state, action = {}) {
         if (!state) {
             state = getInitialState();
