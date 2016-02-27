@@ -1,9 +1,10 @@
 <div class="<%= cn.root %>">
-    <div class="<%= cn.name %> <%= cn.winner %>"><%= finalResults[0].name %> WON! - <%= finalResults[0].scores %></div>
+    <div class="<%= cn.name %> <%= cn.winner %>"><%= finalResults[0].name %> - <%= finalResults[0].scores %></div>
     <div>
         <% finalResults.slice(1).forEach(function (player) { %>
             <div class="<%= cn.name %>"><%= player.name %> - <%= player.scores %></div>
         <% }); %>
+
         <button data-final-results="new" class="form-button">New game</button>
     </div>
 </div>

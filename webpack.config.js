@@ -45,10 +45,6 @@ module.exports = {
                 loader: 'json'
             },
             {
-                test: /\.jpe?g$|\.gif$|\.png$|\.ico|\.svg|\.woff2?|\.eot|\.ttf/,
-                loader: 'file?name=[path][name].[ext]'
-            },
-            {
                 test: /\.css$/,
                 exclude: [ /src\/views/ ],
                 loader: [

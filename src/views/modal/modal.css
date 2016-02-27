@@ -31,17 +31,21 @@
 }
 
 .style_info {
-    background: rgba(236, 240, 241, 0.8);
+    background: rgba(236, 240, 241, 0.95);
 }
 
 .style_green {
-    background: rgba(39, 174, 96, 0.8);
+    background: rgba(39, 174, 96, 0.95);
 }
 
 .style_orange {
-    background: rgba(243, 156, 18, 0.8);
+    background: rgba(243, 156, 18, 0.95);
 }
 
 .style_red {
-    background: rgba(231, 76, 60, 0.8);
+    background: rgba(231, 76, 60, 0.95);
+}
+
+.style_blue {
+    background: rgba(52, 152, 219, 0.95);
 }

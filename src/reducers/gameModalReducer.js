@@ -1,7 +1,7 @@
 function createFinalResultsState() {
     return {
         name: 'final-results',
-        style: 'red',
+        style: 'blue',
         isOpen: false
     }
 }
@@ -9,7 +9,7 @@ function createFinalResultsState() {
 function createGameFormState() {
     return {
         name: 'game-form',
-        style: 'green',
+        style: 'blue',
         isOpen: false
     }
 }

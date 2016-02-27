@@ -1,9 +1,15 @@
 body {
     font-family: 'Open Sans', sans-serif;
+    margin: 0;
+    background-color: #2980b9;
 }
 
 * {
     box-sizing: border-box;
+}
+
+button {
+    -webkit-appearance: caret;
 }
 
 .clearfix:after {
