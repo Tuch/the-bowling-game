@@ -1,18 +1,18 @@
-<div class="cell-wp <%= cell.isLeft ? 'left-col' : '' %>">
-    <div class="cell">
+<div class="<%= cn._root %>">
+    <div class="<%= cn.cell %>">
     <% if (cell.text) { %>
         <%= cell.text %>
     <% } else { %>
-        <div class="cell-top clearfix">
-            <div class="cell-left cell-half">I</div>
-            <div class="cell-right cell-half">II</div>
+        <div class="<%= top %> clearfix">
+            <div class="cell-left <%= cn.half %>">I</div>
+            <div class="cell-right <%= cn.hald %>">II</div>
         </div>
         <div class="cell-mid clearfix">
             <% if (cell[0] === 'X') { %>
-            <div class="cell-full">X</div>
+                <div class="<%= cn.full %>>">X</div>
             <% } else { %>
-            <div class="cell-left cell-half"><%= cell[0] %></div>
-            <div class="cell-right cell-half"><%= cell[1] %></div>
+                <div class="cell-left <%= cn.half %>"><%= cell[0] %></div>
+                <div class="cell-right <%= cn.half %>"><%= cell[1] %></div>
             <% } %>
         </div>
         <div class="cell-bot">

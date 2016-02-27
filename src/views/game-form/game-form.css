@@ -1,12 +1,12 @@
-.game-form { }
+.root { }
 
-.game-form__name {
+.name {
     color: #2c3e50;
     font-size: 41px;
     text-align: center;
 }
 
-.game-form__input {
+.input {
     font-weight: 100;
     font-size: 16px;
     width: 228px;
@@ -17,17 +17,10 @@
     border: 1px solid rgba(44, 62, 80, 0.12);
 }
 
-.game-form__button {
-}
-
-.game-form__button:hover {
-    background: rgba(236, 240, 241, 0.77);
-}
-
-.game-form__row {
+.row {
     margin: 0 10px;
 }
 
-.game-form__row:first-child {
+.row:first-child {
     margin-top: 1px;
 }

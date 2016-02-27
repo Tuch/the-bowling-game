@@ -71,20 +71,27 @@ function prepareRows(state) {
     let rows = [];
     let row = {
         isHead: true,
-        cols: state.frames.map(frame => ({ text: frame.title }))
+        cols: state.frames.map((frame, index) => ({
+            text: frame.title,
+            isRight: index === state.frames.length - 1,
+            isTop: true
+        }))
     };
 
-    row.cols.unshift({text:state.diffTime, isLeft: true});
+    row.cols.unshift({text:state.diffTime, isLeft: true, isTop: true});
 
     rows.push(row);
 
-    let pRows = state.players.map((player, index) => {
-        let cols = state.frames.map((frame) => {
-            let rolls = frame[index];
+    let pRows = state.players.map((player, pIndex) => {
+        let cols = state.frames.map((frame, fIndex) => {
+            let rolls = frame[pIndex];
             let cell = {
                 0: rolls[0] ? rolls[0].title : '',
                 1: rolls[1] ? rolls[1].title : '',
-                total: rolls.total
+                total: rolls.total,
+                isRight: fIndex === state.frames.length - 1,
+                isBottom: pIndex === state.players.length - 1,
+                isScores: true
             };
 
             return cell;
@@ -92,7 +99,8 @@ function prepareRows(state) {
 
         cols.unshift({
             text: player,
-            isLeft: true
+            isLeft: true,
+            isBottom: pIndex === state.players.length - 1
         });
 
         return { cols };

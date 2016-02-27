@@ -3,6 +3,24 @@ import finalResults from '../final-results/final-results.js';
 import cn from './modal.css';
 import template from './modal.jst';
 
+function prepareCN(state) {
+    let root = [cn.root];
+
+    if (state.modal.style) {
+        root.push(cn['style_' + state.modal.style]);
+    } else {
+        root.push(cn.info);
+    }
+
+    if (!state.modal.isOpen) {
+        root.push('hidden');
+    }
+
+    cn._root = root.join(' ');
+
+    return cn;
+}
+
 export default function (app) {
     let contentHTML = '';
 
@@ -16,9 +34,7 @@ export default function (app) {
     }
 
     return template({
-        cn: cn,
-        style: app.modal.style || 'info',
-        isOpen: app.modal.isOpen,
+        cn: prepareCN(app),
         contentHTML
     });
 }

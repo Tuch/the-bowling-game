@@ -26,23 +26,45 @@ module.exports = {
                 //loader: 'isparta-instrumenter'
             //}
         //],
-        loaders: [{
-            loader: 'babel-loader',
-            test: /\.js$/,
-            exclude: /node_modules/
-        }, {
-            test: /\.html$/,
-            loader: 'file?name=[name].html'
-        }, {
-            test: /\.jst/,
-            loader: 'jst'
-        }, {
-            test: /\.css$/,
-            loader: 'style!css'
-        }, {
-            test: /\.json/,
-            loader: 'json'
-        }]
+        loaders: [
+            {
+                loader: 'babel-loader',
+                test: /\.js$/,
+                exclude: /node_modules/
+            },
+            {
+                test: /\.html$/,
+                loader: 'file?name=[name].html'
+            },
+            {
+                test: /\.jst/,
+                loader: 'jst'
+            },
+            {
+                test: /\.json/,
+                loader: 'json'
+            },
+            {
+                test: /\.jpe?g$|\.gif$|\.png$|\.ico|\.svg|\.woff2?|\.eot|\.ttf/,
+                loader: 'file?name=[path][name].[ext]'
+            },
+            {
+                test: /\.css$/,
+                exclude: [ /src\/views/ ],
+                loader: [
+                    'style',
+                    'css?sourceMap'
+                ].join('!')
+            },
+            {
+                test: /\.css$/,
+                exclude: [ /src\/css/ ],
+                loader: [
+                    'style',
+                    'css?sourceMap&modules&localIdentName=[name]__[local]___[hash:base64:5]'
+                ].join('!')
+            }
+        ]
     },
     devtool: 'inline-source-map'
 };

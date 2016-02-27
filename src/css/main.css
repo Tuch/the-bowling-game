@@ -1,0 +1,76 @@
+body {
+    font-family: 'Open Sans', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.form-button {
+    font-size: 14px;
+    font-weight: 600;
+    background: #ecf0f1;
+    color: rgb(44, 62, 80);
+    box-shadow: 0px 2px rgb(221, 221, 221);
+    display: block;
+    width: 228px;
+    margin: 0 auto 0 auto;
+    border-radius: 2px;
+    padding: 13px 15px 11px;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+}
+
+.form-button:hover {
+    background: rgba(236, 240, 241, 0.77);
+}
+
+.animated {
+    animation-duration: .5s;
+    animation-fill-mode: both;
+}
+
+.bounceIn {
+    animation-name: bounceIn;
+}
+
+.shake {
+    animation-name: bounceIn;
+}
+
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: scale3d(.95, .95, .95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+@keyframes shake {
+    from, to {
+        transform: translate3d(0, 0, 0);
+    }
+
+    30% {
+        transform: translate3d(-5px, 0, 0);
+    }
+
+    70% {
+        transform: translate3d(5px, 0, 0);
+    }
+}

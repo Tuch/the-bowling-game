@@ -1,13 +1,13 @@
-<div class="game-form">
-    <div class="game-form__name">BOWLING.JS</div>
+<div class="<%= cn.root %>">
+    <div class="<%= cn.name %>">BOWLING.JS</div>
 
     <% players.forEach(function (player, index) { %>
-    <div class="game-form__row">
-        <input class="game-form__input" data-game-form="input" data-index="<%= index %>" value="<%= player %>">
+    <div class="<%= cn.row %>">
+        <input class="<%= cn.input %>" data-game-form="input" data-index="<%= index %>" value="<%= player %>">
     </div>
     <% }); %>
 
-    <div class="form__row">
+    <div class="<%= cn.row %>">
         <button data-game-form="play" class="form-button">Play</button>
     </div>
 </div>

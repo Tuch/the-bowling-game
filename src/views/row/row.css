@@ -1,8 +1,4 @@
-.row {
-
-}
-
-.head.row {
+.row.is_head {
     text-align: center;
     line-height: 56px;
     font-size: 19px;

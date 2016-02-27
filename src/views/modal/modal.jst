@@ -1,6 +1,6 @@
-<div class="modal modal__<%= style %> modal_animation_bounceIn <%= isOpen ? '' : 'modal__hidden' %>">
-    <div data-modal="close" class="modal__close">×</div>
-    <div class="modal__content">
+<div class="<%= cn._root %> animated bounceIn">
+    <div data-modal="close" class="<%= cn.close %>">×</div>
+    <div class="<%= cn.content %>">
         <%= contentHTML %>
     </div>
 </div>

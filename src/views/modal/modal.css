@@ -1,4 +1,4 @@
-.modal {
+.root {
     top: 0;
     left: 0;
     position: fixed;
@@ -6,11 +6,7 @@
     height: 100%;
 }
 
-.modal__hidden {
-    display: none;
-}
-
-.modal__close {
+.close {
     position: absolute;
     top: -7px;
     right: 15px;
@@ -22,11 +18,11 @@
     display: none;
 }
 
-.modal__close:hover {
+.close:hover {
     transform: rotate(90deg);
 }
 
-.modal__content {
+.content {
     margin: 100px auto;
     width: 600px;
     background: #fff;
@@ -34,36 +30,18 @@
     padding: 90px 5px;
 }
 
-.modal__info {
+.style_info {
     background: rgba(236, 240, 241, 0.8);
 }
 
-.modal__green {
+.style_green {
     background: rgba(39, 174, 96, 0.8);
 }
 
-.modal__orange {
+.style_orange {
     background: rgba(243, 156, 18, 0.8);
 }
 
-.modal__red {
+.style_red {
     background: rgba(231, 76, 60, 0.8);
-}
-
-.modal_animation_bounceIn {
-    animation-duration: .5s;
-    animation-fill-mode: both;
-    animation-name: bounceIn;
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale3d(.95, .95, .95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
-  }
 }

@@ -1,11 +1,50 @@
-.cell-wp {
+.root {
     width: 60px;
     height: 60px;
     float: left;
 }
 
-.cell-wp.left-col {
+.is_right .cell {
+    border-right-width: 1px;
+}
+
+.is_bottom .cell {
+    border-bottom-width: 1px;
+}
+
+.is_top.is_left .cell {
+    border-radius: 10px 0 0 0;
+}
+
+.is_top.is_right .cell {
+    border-radius: 0 10px 0 0;
+}
+
+.is_bottom.is_right .cell {
+    border-radius: 0 0 0 10px;
+}
+
+.is_bottom.is_right .cell {
+    border-radius: 0 0 10px 0;
+}
+
+.is_top {
+    text-align: center;
+}
+
+.is_left {
     width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    text-transform: uppercase;
+    color: rgba(131, 178, 186, 0.95);
+    line-height: 57px;
+    text-align: center;
+}
+
+.is_scores {
+    font-size: 12px;
 }
 
 .cell {
@@ -17,41 +56,13 @@
     text-align: center;
 }
 
-.cell-wp:last-child .cell {
-    border-right-width: 1px;
+.top {
+    color: rgba(131, 178, 186, 0.95);
 }
 
-.player:last-child .cell {
-    border-bottom-width: 1px;
-}
-
-.cell-half {
+.half {
     float: left;
     width: 50%;
 }
 
-.left-col {
-    line-height: 57px;
-    text-align: center;
-}
-
-.head .left-col .cell {
-    text-align: center;
-}
-
-.player .left-col .cell {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    padding: 0 10px;
-    text-transform: uppercase;
-    color: rgba(131, 178, 186, 0.95);
-}
-
-.player :not(.left-col) .cell {
-    font-size: 12px;
-}
-
-.cell-top {
-    color: rgba(131, 178, 186, 0.95);
-}
+.full { }

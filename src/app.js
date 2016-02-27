@@ -1,5 +1,5 @@
 import index from './index.html';
-import styles from './styles.css';
+import cn from './css/main.css';
 import * as vdom from './virtual-dom.js';
 
 // react style

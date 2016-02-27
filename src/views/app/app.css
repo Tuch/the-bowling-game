@@ -1,9 +1,8 @@
-.screen {
+.root {
     width: 720px;
     margin: 0 auto 0 auto;
 }
-
-.main-image {
+.image {
     margin: 50px auto 50px auto;
     display: block;
     position: absolute;
@@ -12,24 +11,8 @@
     width: 200px;
 }
 
-.button-wp {
+.button__wp {
     position:relative;
-}
-
-.screen .head .cell-wp:first-child .cell {
-    border-radius: 10px 0 0 0;
-}
-
-.screen .head .cell-wp:last-child .cell {
-    border-radius: 0 10px 0 0;
-}
-
-.screen .player:last-child .cell-wp:first-child .cell {
-    border-radius: 0 0 0 10px;
-}
-
-.screen .player:last-child .cell-wp:last-child .cell {
-    border-radius: 0 0 10px 0;
 }
 
 .author {
@@ -38,7 +21,7 @@
     text-align: right;
 }
 
-.roll-button {
+.button {
     position: relative;
     font-size: 250%;
     margin: 50px auto;
@@ -56,24 +39,9 @@
     -webkit-appearance: caret;
 }
 
-.roll-button:hover {
+.button:hover {
     box-shadow: 0 2px #652801;
-    animation-duration: .5s;
-    animation-fill-mode: both;
     animation-name: shake;
 }
 
-@keyframes shake {
-    from, to {
-        transform: translate3d(0, 0, 0);
-    }
-
-    30% {
-        transform: translate3d(-5px, 0, 0);
-    }
-
-    70% {
-        transform: translate3d(5px, 0, 0);
-    }
-}
 

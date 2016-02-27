@@ -4,6 +4,8 @@
   "description": "",
   "main": "build/bundle.js",
   "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch",
     "test": "karma start"
   },
   "repository": {
@@ -24,7 +26,6 @@
     "css-loader": "0.23.1",
     "eslint": "^2.2.0",
     "file-loader": "0.8.5",
-    "imports-loader": "0.6.5",
     "isparta": "4.0.0",
     "isparta-instrumenter-loader": "1.0.0",
     "jasmine-core": "2.4.1",

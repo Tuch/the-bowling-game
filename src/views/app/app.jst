@@ -1,12 +1,10 @@
-<div>
-    <div class="screen">
-        <div class="author">by Alex Afonin</div>
-        <div>
-            <%= rowsHTML %>
-        </div>
-        <div class="button-wp">
-            <img class="main-image" src="<%= mainImageSrc %>">
-            <button class="roll-button" data-main="roll" ></button>
+<div class="<%= cn.root %>">
+    <div class="<%= cn.workspace %>">
+        <div class="<%= cn.author %>">by Alex Afonin</div>
+        <div> <%= tableHTML %> </div>
+        <div class="<%= cn.button__wp %>">
+            <img class="<%= cn.image %>" src="<%= imageSrc %>">
+            <button class="<%= cn.button %>" data-main="roll" ></button>
         </div>
     </div>
     <div>
