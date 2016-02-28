@@ -1,4 +1,4 @@
-import row from '../row/row.js';
+import row from './row/row.js';
 import cn from './table.css';
 import template from './table.jst';
 

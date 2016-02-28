@@ -16,9 +16,9 @@
     </div>
 
     <% if (rollBallAnimation) { %>
-    <div class="<%= cn.rollball__animation %>">
+    <div class="<%= cn.rollball__animation %>" style="background-color:<%= lastResult.color %>">
         <div class="<%= cn.rollball__text %>">
-            <%= lastResult %>
+            <%= lastResult.value %>
         </div>
     </div>
     <% } %>

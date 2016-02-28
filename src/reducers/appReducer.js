@@ -1,5 +1,4 @@
 import * as types from './types';
-import { sumArray } from 'helpers';
 import modalReducerCreater from './modalReducerCreater';
 import gameReducerCreater from './gameReducerCreater';
 
@@ -44,7 +43,10 @@ function createTable (state) {
             isCurrent: pIndex === state.currentPlayer
         });
 
-        return { cols };
+        return {
+            isCurrent: pIndex === state.currentPlayer,
+            cols
+        };
     });
 
     rows.push(...pRows);
@@ -52,28 +54,10 @@ function createTable (state) {
     return { rows };
 }
 
-function createFinalResults (state) {
-    return state.players.map((player, index) => {
-        return {
-            name: player,
-            scores: sumArray(state.frames.map((frame) => frame[index].total))
-        };
-    }).sort(function (a, b) {
-        return b.scores - a.scores;
-    });
-}
-
-function getInitialState() {
-    return { };
-}
-
-function reducer(state = getInitialState(), action = {}) {
+function reducer(state = {}, action = {}) {
     state.game = gameReducer(state.game, action);
 
     switch (action.type) {
-        case types.END_GAME:
-            state.finalResults = createFinalResults(state.game);
-        break;
         default:
             state.table = createTable(state.game);
         break;

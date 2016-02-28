@@ -4,6 +4,14 @@ export function sumArray (arr) {
     }, 0);
 }
 
+export function randNum (max) {
+    return Math.round(Math.random() * max);
+}
+
+export function randArr(arr) {
+    return arr[randNum(arr.length - 1)];
+}
+
 export function extend (dst) {
     dst = dst || {};
 

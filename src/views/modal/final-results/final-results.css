@@ -1,7 +1,6 @@
 .name {
     font-weight: 100;
-    font-size: 16px;
-    width: 228px;
+    font-size: 30px;
     margin: 0 auto;
     display: block;
     text-align: center;
@@ -12,4 +11,7 @@
 .winner {
     font-size:40px;
     width: auto;
+    text-transform: uppercase;
+    font-weight: 600;
+    color: #f39c12;
 }

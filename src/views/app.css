@@ -34,13 +34,12 @@
     top: -33px;
     left:0;
     right:0;
-    border-radius: 0 0 100% 100%;
     font-size: 45px;
     margin: 0px auto;
     display: block;
     border: none;
     color: #fff;
-    width: 540px;
+    width: 940px;
     height: 100px;
     cursor: pointer;
     text-transform: uppercase;
@@ -50,6 +49,7 @@
 .button:hover {
     box-shadow: 0px 2px 0px 0px #226793;
     animation-name: shake;
+    text-shadow: 2px 2px rgba(0, 0, 0, 0.29);
 }
 
 .workspace {
@@ -57,13 +57,6 @@
     margin-top: 15%;
     position: relative;
     box-shadow: 0 5px #226793;
-}
-
-.table {
-    width: 940px;
-    margin: 0 auto 0 auto;
-    position: relative;
-    top: -34px;
 }
 
 .rollball__animation {
@@ -90,7 +83,7 @@
     font-size: 150px;
     color: #fff;
     animation-name: rollBallText;
-    background: rgba(255, 255, 255, 0.16);
+    background-color: rgba(255, 255, 255, 0.16);
     animation-duration: 1s;
     text-shadow: 2px 2px #34495e;
     animation-fill-mode: both;

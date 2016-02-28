@@ -1,10 +1,12 @@
 import index from './index.html';
 import cn from './css/main.css';
 import * as vdom from './virtual-dom.js';
+import assignEvents from './assign-events.js';
 
-// react style
-import app from './views/app/app.js';
-// redux style
+// react style:
+import app from './views/app.js';
+
+// redux style:
 import reducer from './reducers/appReducer.js';
 import * as actions from './reducers/actions.js';
 
@@ -14,6 +16,19 @@ class App {
             .setState(state)
             .initGameTimer()
             .assignEvents();
+    }
+
+    getEvents () {
+        return {
+            'click': [ 'main', 'game-form', 'modal', 'final-results' ],
+            'focusout': [ 'game-form' ]
+        };
+    }
+
+    assignEvents () {
+        assignEvents(this, this.getEvents());
+
+        return this;
     }
 
     initAppNode () {
@@ -32,89 +47,6 @@ class App {
         return this;
     }
 
-    setState(state) {
-        this.state = Object.assign(this.state || {}, state);
-
-        this.render();
-
-        return this;
-    }
-
-    reduceAction (action) {
-        this.setState(reducer(this.state, action));
-
-        return this;
-    }
-
-    assignEvents () {
-        document.addEventListener('click', this.onDocumentClick.bind(this));
-        document.addEventListener('focusout', this.onDocumentFocusOut.bind(this));
-
-        return this;
-    }
-
-    onDocumentClick (e) {
-        let key = '';
-
-        if (key = e.target.getAttribute('data-main')) {
-            this.onRollClick(key);
-        } else if (key = e.target.getAttribute('data-game-form')) {
-            this.onGameFormClick(key);
-        } else if (key = e.target.getAttribute('data-modal')) {
-            this.onModalClick(key);
-        } else if (key = e.target.getAttribute('data-final-results')) {
-            this.onFinalResultsClick(key);
-        }
-    }
-
-    onDocumentFocusOut (e) {
-        let key = '';
-
-        if (key = e.target.getAttribute('data-game-form')) {
-            this.onGameFormFocusOut(key, {
-                index: parseInt(e.target.getAttribute('data-index')),
-                value: e.target.value
-            });
-        }
-    }
-
-    onGameFormFocusOut (key, data) {
-        switch (key) {
-            case 'input':
-                this.reduceAction(actions.updatePlayerName(data));
-            break;
-        }
-    }
-
-    onFinalResultsClick (key) {
-        switch (key) {
-            case 'new':
-                this.reduceAction(actions.newGame());
-            break;
-        }
-    }
-
-    onRollClick (key) {
-        switch (key) {
-            case 'roll':
-                if (this.isAnimationInProgress()) {
-                    return;
-                }
-
-                this.reduceAction(actions.throwBall())
-                    .startRollBallAnimation(() => {
-                        if (!this.state.game.inProgress) {
-                            this.reduceAction(actions.endGame());
-                        }
-                    });
-            break;
-        }
-    }
-
-    isAnimationInProgress () {
-        return this.state.$rollBallAnimation;
-    }
-
     startRollBallAnimation (callback) {
         this.setState({
             $rollBallAnimation: true
@@ -131,20 +63,18 @@ class App {
         return this;
     }
 
-    onGameFormClick (key) {
-        switch (key) {
-            case 'play':
-                this.reduceAction(actions.playGame());
-            break;
-        }
+    setState(state) {
+        this.state = Object.assign(this.state || {}, state);
+
+        this.render();
+
+        return this;
     }
 
-    onModalClick (key) {
-        switch (key) {
-            case 'close':
-                this.reduceAction(actions.closeModal());
-            break;
-        }
+    reduceAction (action) {
+        this.setState(reducer(this.state, action));
+
+        return this;
     }
 
     render() {
@@ -161,23 +91,46 @@ class App {
             }
 
             this.vNode = vNode;
-            this.fillNodes();
         });
 
         return this;
     }
 
-    fillNodes() {
-        this.timerNode = document.querySelectorAll('.head .left-col .cell')[0];
-
-        return this;
+    onGameFormInputFocusout (e) {
+        this.reduceAction(actions.updatePlayerName({
+            index: parseInt(e.target.getAttribute('data-index')),
+            value: e.target.value
+        }));
     }
 
+    onFinalResultsNewClick () {
+        this.reduceAction(actions.newGame());
+    }
 
+    onMainRollClick () {
+        if (this.isAnimationInProgress()) {
+            return;
+        }
+
+        this.reduceAction(actions.throwBall())
+            .startRollBallAnimation(() => {
+                if (!this.state.game.inProgress) {
+                    this.reduceAction(actions.endGame());
+                }
+            });
+    }
+
+    onGameFormPlayClick () {
+        this.reduceAction(actions.playGame());
+    }
+
+    onModalCloseClick () {
+        this.reduceAction(actions.closeModal());
+    }
+
+    isAnimationInProgress () {
+        return this.state.$rollBallAnimation;
+    }
 }
 
-
-
 new App(reducer());
-
-

@@ -1,5 +1,5 @@
-import table from '../table/table.js';
-import modal from '../modal/modal.js';
+import table from './table/table.js';
+import modal from './modal/modal.js';
 import cn from './app.css';
 import template from './app.jst';
 

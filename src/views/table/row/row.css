@@ -1,0 +1,14 @@
+.root {
+    border: 5px solid transparent;
+}
+
+.is_head {
+    text-align: center;
+    line-height: 56px;
+    font-size: 19px;
+    color: rgba(131, 178, 186, 0.95);
+}
+
+.is_current {
+    border-color: rgb(34, 103, 147);
+}

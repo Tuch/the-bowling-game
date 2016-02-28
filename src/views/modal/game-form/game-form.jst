@@ -1,5 +1,5 @@
 <div class="<%= cn.root %>">
-    <div class="<%= cn.name %>">ROLLBALL.JS</div>
+    <div class="<%= cn.name %>">The Bowling Game</div>
 
     <% players.forEach(function (player, index) { %>
     <div class="<%= cn.row %>">
@@ -7,9 +7,11 @@
     </div>
     <% }); %>
 
+    <% if (players.length < 5) { %>
     <div class="<%= cn.row %>">
         <input class="<%= cn.input %>" data-game-form="input" data-index="<%= players.length %>" value="">
     </div>
+    <% } %>
 
     <div class="<%= cn.row %>">
         <button data-game-form="play" class="form-button">Play</button>

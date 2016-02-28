@@ -1,5 +1,10 @@
+/* ***
+* THIS REDUCER IS READY FOR SHARING BL TO OTHER PLATFORM. (WITH REACT NATIVE FOR EXAMPLE)
+*** */
+
 import names from './names.json';
-import { sumArray } from 'helpers';
+import colors from './colors.json';
+import { sumArray, randNum, randArr } from 'helpers';
 
 const FRAMES_LENGTH = 10;
 
@@ -28,29 +33,21 @@ function calcDiffTime (state) {
     return state;
 }
 
-function getRandomName () {
-    return names[rand(names.length - 1)];
-}
-
-function rand (max) {
-    return Math.round(Math.random() * max);
-}
-
 function rollBall (pins) {
-    let values = [rand(pins)];
+    let values = [randNum(pins)];
 
     return Math.max(...values);
 }
 
 function getInitialState (players) {
     let state = {
-        players: players || [getRandomName(), getRandomName()],
+        players: players || [randArr(names), randArr(names)],
         currentPlayer: 0,
         currentFrame: 0,
         startTime: new Date(),
         diffTime: '00:00',
         inProgress: true,
-        lastResult: ''
+        lastResult: {}
     };
 
     state.frames = createFrames(state);
@@ -187,10 +184,11 @@ function onThrowBall (state) {
         nextPlayer(state);
     }
 
-    state.lastResult = `${value}`;
+    state.lastResult.value = `${value} pins!`;
+    state.lastResult.color = randArr(colors);
 
     if (roll.special) {
-        state.lastResult += ` ${roll.special.toUpperCase()}!`;
+        state.lastResult.value += ` ${roll.special.toUpperCase()}`;
     }
 
     return state;
@@ -201,7 +199,7 @@ function onUpdatePlayerName (state, data) {
     state.players = state.players.filter(player => player);
 
     if (!state.players.length) {
-        state.players.push(getRandomName());
+        state.players.push(randArr(names));
     }
 
     state.frames = createFrames(state);

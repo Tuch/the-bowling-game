@@ -1,5 +1,5 @@
-import gameForm from '../game-form/game-form.js';
-import finalResults from '../final-results/final-results.js';
+import gameForm from './game-form/game-form.js';
+import finalResults from './final-results/final-results.js';
 import cn from './modal.css';
 import template from './modal.jst';
 
