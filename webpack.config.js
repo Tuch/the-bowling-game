@@ -17,6 +17,7 @@ module.exports = {
     },
     module: {
         preLoaders: [
+            //for coverage
             //{
                 //test: /\.js$/,
                 //exclude: [
@@ -45,10 +46,16 @@ module.exports = {
                 loader: 'json'
             },
             {
+                test: /\.jpe?g$|\.gif$|\.png$|\.ico|\.svg|\.woff2?|\.eot|\.ttf/,
+                loader: 'file'
+            },
+            {
                 test: /\.css$/,
                 exclude: [ /src\/views/ ],
                 loader: [
-                    'style',
+                    'style/url',
+                    'file',
+                    'extract',
                     'css?sourceMap'
                 ].join('!')
             },

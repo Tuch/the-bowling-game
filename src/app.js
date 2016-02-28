@@ -63,16 +63,16 @@ class App {
         return this;
     }
 
-    setState(state) {
+    setState(state, noRender) {
         this.state = Object.assign(this.state || {}, state);
 
-        this.render();
+        !noRender && this.render();
 
         return this;
     }
 
-    reduceAction (action) {
-        this.setState(reducer(this.state, action));
+    reduceAction (action, noRender) {
+        this.setState(reducer(this.state, action), noRender);
 
         return this;
     }
@@ -112,11 +112,13 @@ class App {
             return;
         }
 
-        this.reduceAction(actions.throwBall())
+        this.reduceAction(actions.throwBall(), true)
             .startRollBallAnimation(() => {
                 if (!this.state.game.inProgress) {
                     this.reduceAction(actions.endGame());
                 }
+
+                this.render();
             });
     }
 

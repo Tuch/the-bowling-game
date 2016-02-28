@@ -13,12 +13,12 @@
     border-style: solid;
     border-width: 1px 0 0 1px;
     text-align: center;
-    background-color: #2980b9;
+    background-color: #e67e22;
     transition: all 3s ease-out;
 }
 
 .top {
-    color: rgba(131, 178, 186, 0.95);
+    color: #fff;
 }
 
 .half {
@@ -38,10 +38,10 @@
 
 .is_left {
     overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
-    text-transform: uppercase;
     line-height: 57px;
+    text-transform: uppercase;
+    text-overflow: ellipsis;
     text-align: center;
 }
 
@@ -51,30 +51,17 @@
 }
 
 .is_top {
-    text-align: center;
     line-height: 30px;
     height: 47px;
     font-size: 30px;
     color: #fff;
+    text-align: center;
+    text-shadow: 2px 2px #000;
 }
 
 .is_scores {
     font-size: 12px;
 }
-
-/*.is_current .cell {*/
-    /*background-color: #2c3e50;*/
-    /*color: #e67e22;*/
-/*}*/
-
-/*.is_current.is_left {*/
-    /*[>border-left: 5px solid #e67e22;<]*/
-    /*border-left: 5px solid transparent;*/
-/*}*/
-
-/*.is_current.is_right {*/
-    /*border-right: 5px solid transparent;*/
-/*}*/
 
 .is_top .cell {
     background-color: transparent;
