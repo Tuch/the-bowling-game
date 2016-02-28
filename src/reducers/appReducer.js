@@ -30,7 +30,8 @@ function createTable (state) {
                 total: rolls.total,
                 isRight: fIndex === state.frames.length - 1,
                 isBottom: pIndex === state.players.length - 1,
-                isScores: true
+                isScores: true,
+                isCurrent: pIndex === state.currentPlayer
             };
 
             return cell;
@@ -39,7 +40,8 @@ function createTable (state) {
         cols.unshift({
             text: player,
             isLeft: true,
-            isBottom: pIndex === state.players.length - 1
+            isBottom: pIndex === state.players.length - 1,
+            isCurrent: pIndex === state.currentPlayer
         });
 
         return { cols };

@@ -4,6 +4,7 @@
     position: fixed;
     width: 100%;
     height: 100%;
+    animation-name: modalWindow;
 }
 
 .close {
@@ -49,3 +50,16 @@
 .style_blue {
     background: rgba(52, 152, 219, 0.95);
 }
+
+@keyframes modalWindow {
+  0% {
+    opacity: 0;
+    transform: scale3d(.95, .95, .95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
+}
+

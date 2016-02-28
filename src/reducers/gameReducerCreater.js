@@ -36,7 +36,7 @@ function rand (max) {
     return Math.round(Math.random() * max);
 }
 
-function throwBall (pins) {
+function rollBall (pins) {
     let values = [rand(pins)];
 
     return Math.max(...values);
@@ -137,19 +137,20 @@ function onThrowBall (state) {
 
     let frame = state.frames[state.currentFrame][state.currentPlayer];
     let pins = FRAMES_LENGTH;
+    let playerName = state.players[state.currentPlayer];
 
     if (frame[0] && pins !== frame[0].value) {
         pins -= frame[0].value;
     }
 
     let bonusFrames = getBonusFrames(state);
-    let value = Math.max(throwBall(pins), throwBall(pins));
+    let value = Math.max(rollBall(pins), rollBall(pins));
 
     bonusFrames.forEach((frame) => {
         frame.total += value;
     });
 
-    let roll = { value };
+    let roll = { value, special: '' };
 
     frame.push(roll);
 
@@ -159,6 +160,7 @@ function onThrowBall (state) {
     if (frame.length === 1) {
         if (roll.value === 10) {
             roll.title = 'X';
+            roll.special = 'strike';
 
             if (!isLastFrame(state)) {
                 nextPlayer(state);
@@ -169,6 +171,7 @@ function onThrowBall (state) {
     } else if (frame.length === 2) {
         if (frame.total === 10) {
             roll.title = '/';
+            roll.special = 'spare';
         } else {
             roll.title = roll.value;
         }
@@ -184,7 +187,11 @@ function onThrowBall (state) {
         nextPlayer(state);
     }
 
-    state.lastResult = value;
+    state.lastResult = `${value}`;
+
+    if (roll.special) {
+        state.lastResult += ` ${roll.special.toUpperCase()}!`;
+    }
 
     return state;
 }

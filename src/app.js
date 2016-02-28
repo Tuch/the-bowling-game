@@ -10,17 +10,10 @@ import * as actions from './reducers/actions.js';
 
 class App {
     constructor (state) {
-        this.initState(state)
-            .initAppNode()
-            .render()
+        this.initAppNode()
+            .setState(state)
             .initGameTimer()
             .assignEvents();
-    }
-
-    initState (state) {
-        this.state = state;
-
-        return this;
     }
 
     initAppNode () {
@@ -34,14 +27,21 @@ class App {
 
         this.gameTimer = setInterval(() => {
             this.reduceAction(actions.tickTimer());
-            this.render();
         }, 1000);
 
         return this;
     }
 
+    setState(state) {
+        this.state = Object.assign(this.state || {}, state);
+
+        this.render();
+
+        return this;
+    }
+
     reduceAction (action) {
-        this.state = reducer(this.state, action);
+        this.setState(reducer(this.state, action));
 
         return this;
     }
@@ -64,11 +64,7 @@ class App {
             this.onModalClick(key);
         } else if (key = e.target.getAttribute('data-final-results')) {
             this.onFinalResultsClick(key);
-        } else {
-            return;
         }
-
-        this.render();
     }
 
     onDocumentFocusOut (e) {
@@ -79,11 +75,7 @@ class App {
                 index: parseInt(e.target.getAttribute('data-index')),
                 value: e.target.value
             });
-        } else {
-            return;
         }
-
-        this.render();
     }
 
     onGameFormFocusOut (key, data) {
@@ -105,13 +97,38 @@ class App {
     onRollClick (key) {
         switch (key) {
             case 'roll':
-                this.reduceAction(actions.throwBall());
-
-                if (!this.state.game.inProgress) {
-                    this.reduceAction(actions.endGame());
+                if (this.isAnimationInProgress()) {
+                    return;
                 }
+
+                this.reduceAction(actions.throwBall())
+                    .startRollBallAnimation(() => {
+                        if (!this.state.game.inProgress) {
+                            this.reduceAction(actions.endGame());
+                        }
+                    });
             break;
         }
+    }
+
+    isAnimationInProgress () {
+        return this.state.$rollBallAnimation;
+    }
+
+    startRollBallAnimation (callback) {
+        this.setState({
+            $rollBallAnimation: true
+        });
+
+        setTimeout(() => {
+            this.setState({
+                $rollBallAnimation: false
+            });
+
+            callback();
+        }, 1200);
+
+        return this;
     }
 
     onGameFormClick (key) {
@@ -155,6 +172,12 @@ class App {
 
         return this;
     }
+
+
 }
 
+
+
 new App(reducer());
+
+

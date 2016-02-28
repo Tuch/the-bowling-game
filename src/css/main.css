@@ -46,37 +46,3 @@ button {
     animation-duration: .5s;
     animation-fill-mode: both;
 }
-
-.bounceIn {
-    animation-name: bounceIn;
-}
-
-.shake {
-    animation-name: bounceIn;
-}
-
-@keyframes bounceIn {
-  0% {
-    opacity: 0;
-    transform: scale3d(.95, .95, .95);
-  }
-
-  to {
-    opacity: 1;
-    transform: scale3d(1, 1, 1);
-  }
-}
-
-@keyframes shake {
-    from, to {
-        transform: translate3d(0, 0, 0);
-    }
-
-    30% {
-        transform: translate3d(-5px, 0, 0);
-    }
-
-    70% {
-        transform: translate3d(5px, 0, 0);
-    }
-}

@@ -24,6 +24,10 @@ function prepareCN(state) {
         root.push(cn.is_scores);
     }
 
+    if (state.isCurrent) {
+        root.push(cn.is_current);
+    }
+
     cn._root = root.join(' ');
 
     return cn;

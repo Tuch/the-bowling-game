@@ -14,4 +14,12 @@
     <div>
         <%= modalHTML %>
     </div>
+
+    <% if (rollBallAnimation) { %>
+    <div class="<%= cn.rollball__animation %>">
+        <div class="<%= cn.rollball__text %>">
+            <%= lastResult %>
+        </div>
+    </div>
+    <% } %>
 </div>
