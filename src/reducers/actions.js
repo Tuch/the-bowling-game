@@ -43,3 +43,9 @@ export let tickTimer = function () {
     };
 };
 
+export let debugMode = function () {
+    return {
+        type: types.DEBUG_MODE
+    };
+};
+

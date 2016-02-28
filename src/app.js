@@ -20,7 +20,7 @@ class App {
 
     getEvents () {
         return {
-            'click': [ 'main', 'game-form', 'modal', 'final-results' ],
+            'click': [ 'main', 'game-form', 'modal', 'final-results', 'author' ],
             'focusout': [ 'game-form' ]
         };
     }
@@ -48,6 +48,10 @@ class App {
     }
 
     startRollBallAnimation (callback) {
+        if (this.state.isDebugMode) {
+            callback();
+            return this;
+        }
         this.setState({
             $rollBallAnimation: true
         });
@@ -96,6 +100,10 @@ class App {
         return this;
     }
 
+    isAnimationInProgress () {
+        return this.state.$rollBallAnimation;
+    }
+
     onGameFormInputFocusout (e) {
         this.reduceAction(actions.updatePlayerName({
             index: parseInt(e.target.getAttribute('data-index')),
@@ -130,8 +138,8 @@ class App {
         this.reduceAction(actions.closeModal());
     }
 
-    isAnimationInProgress () {
-        return this.state.$rollBallAnimation;
+    onAuthorDebugClick () {
+        this.reduceAction(actions.debugMode());
     }
 }
 

@@ -2,9 +2,9 @@ import row from './row/row.js';
 import cn from './table.css';
 import template from './table.jst';
 
-export default function (table) {
+export default function (state) {
     return template({
-        rowsHTML: table.rows.map(row).join(''),
+        rowsHTML: state.rows.map(row).join(''),
         cn
     });
 }

@@ -58,6 +58,9 @@ function reducer(state = {}, action = {}) {
     state.game = gameReducer(state.game, action);
 
     switch (action.type) {
+        case types.DEBUG_MODE:
+            state.isDebugMode = !state.isDebugMode;
+        break;
         default:
             state.table = createTable(state.game);
         break;

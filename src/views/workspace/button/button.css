@@ -1,0 +1,24 @@
+.root {
+    position:relative;
+}
+
+.button {
+    position: absolute;
+    top: -33px;
+    left:0;
+    right:0;
+    font-size: 45px;
+    margin: 0px auto;
+    display: block;
+    border: none;
+    color: #fff;
+    width: 940px;
+    height: 100px;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: #e67e22;
+}
+
+.button:hover {
+    background-color: rgb(237, 157, 87);
+}
