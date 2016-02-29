@@ -9,8 +9,10 @@ function createNodeFromHTML(HTML) {
 
     let node = document.createElement('div');
     node.innerHTML = HTML;
+    node = node.childNodes[0];
+    node.parentNode.removeChild(node);
 
-    return node.childNodes[0];
+    return node;
 }
 
 export function createVNodeFromNode(node) {
