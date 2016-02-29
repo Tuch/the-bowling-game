@@ -43,9 +43,9 @@ export let tickTimer = function () {
     };
 };
 
-export let debugMode = function () {
+export let speedMode = function () {
     return {
-        type: types.DEBUG_MODE
+        type: types.SPEED_MODE
     };
 };
 

@@ -8,7 +8,7 @@ import template from './workspace.jst';
 export default function (state) {
     return template({
         authorHTML: state ? author(state) : '',
-        tableHTML: state ? table(state.table) : '',
+        tableHTML: state.table ? table(state.table) : '',
         buttonHTML: state ? button() : '',
         cn
     });

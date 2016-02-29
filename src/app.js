@@ -48,7 +48,7 @@ class App {
     }
 
     startRollBallAnimation (callback) {
-        if (this.state.isDebugMode) {
+        if (this.state.isSpeedMode) {
             callback();
             return this;
         }
@@ -138,8 +138,8 @@ class App {
         this.reduceAction(actions.closeModal());
     }
 
-    onAuthorDebugClick () {
-        this.reduceAction(actions.debugMode());
+    onAuthorSpeedmodeClick () {
+        this.reduceAction(actions.speedMode());
     }
 }
 

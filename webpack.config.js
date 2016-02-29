@@ -56,7 +56,8 @@ module.exports = {
                     'style/url',
                     'file',
                     'extract',
-                    'css?sourceMap'
+                    'css?sourceMap',
+                    'autoprefixer'
                 ].join('!')
             },
             {
@@ -64,7 +65,8 @@ module.exports = {
                 exclude: [ /src\/css/ ],
                 loader: [
                     'style',
-                    'css?sourceMap&modules&localIdentName=[name]__[local]___[hash:base64:5]'
+                    'css?sourceMap&modules&localIdentName=[name]__[local]___[hash:base64:5]',
+                    'autoprefixer'
                 ].join('!')
             }
         ]

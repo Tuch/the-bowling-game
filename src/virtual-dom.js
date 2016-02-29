@@ -7,20 +7,10 @@ function createNodeFromHTML(HTML) {
         return document.createTextNode(HTML);
     }
 
-    // Everything except iOS 7 Safari, IE 8/9, Andriod Browser 4.1/43
-    let parser = new DOMParser();
-    let doc = parser.parseFromString(HTML, 'text/html').documentElement;
-    let head = doc.childNodes[0];
-    let body = doc.childNodes[1];
-    let node;
+    let node = document.createElement('div');
+    node.innerHTML = HTML;
 
-    if (node = head.childNodes[0]) {
-        head.removeChild(node);
-    } else if (node = body.childNodes[0]) {
-        body.removeChild(node);
-    }
-
-    return node;
+    return node.childNodes[0];
 }
 
 export function createVNodeFromNode(node) {
