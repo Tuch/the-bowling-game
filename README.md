@@ -1,5 +1,5 @@
 # THE BOWLING GAME v1.0.0
-Built with love. 
+Built for six days from scratch. With love. 
 Vanilla JS, es2015 and webpack included.
 Take your :beer: :beer: :beer: and [GO PLAY](http://tuch.github.io/the-bowling-game/build/index.html)!
 
